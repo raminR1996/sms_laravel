@@ -24,9 +24,10 @@
                 {{ $header }}
             </div>
         @endisset
-
-        {{ $slot }}
+    
+        @yield('content')
     </main>
+    
 
 </body>
 </html>
