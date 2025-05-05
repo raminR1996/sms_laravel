@@ -1,0 +1,22 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+@font-face {
+    font-family: 'Vazirmatn';
+    src: url('/fonts/Vazirmatn[wght].woff2') format('woff2');
+    font-weight: 100 900;
+    font-display: swap;
+  }
+  
+  body {
+    direction: rtl !important;
+    text-align: right;
+    font-family: 'Vazirmatn', sans-serif;
+  }
+  label, input, button, a, p {
+    text-align: right;
+  }
+  
+  
