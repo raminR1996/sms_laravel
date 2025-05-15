@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\OtpController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\SettingsController;
 
 Route::get('/', function () {
     return view('home');
@@ -33,5 +34,18 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile/complete', [ProfileController::class, 'showCompleteForm'])->name('profile.complete');
     Route::post('/profile/complete', [ProfileController::class, 'storeCompleteForm'])->name('profile.complete.store');
 });
+
+// تنظیمات (فقط برای مدیر)
+    Route::middleware('role:admin')->group(function () {
+    Route::get('/settings', [SettingsController::class, 'index'])->name('settings.index');
+    Route::post('/settings', [SettingsController::class, 'update'])->name('settings.update');
+        });
+
+              // ارسال پیامک (برای همه نقش‌ها)
+        Route::get('/send-sms', [DashboardController::class, 'sendSms'])->name('send.sms');
+        // مدیریت مخاطبین (برای کارمند و مدیر)
+        Route::middleware('role:staff,admin')->group(function () {
+            Route::get('/contacts', [DashboardController::class, 'contacts'])->name('contacts.index');
+        });
 
 require __DIR__.'/auth.php';

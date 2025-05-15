@@ -18,11 +18,22 @@ class OtpController extends Controller
 
     public function sendOtp(Request $request)
     {
+        // اگه phone_number توی درخواست نباشه، از سشن می‌گیریم
+        $phoneNumber = $request->input('phone_number', Session::get('phone_number'));
+
+        if (!$phoneNumber) {
+            return back()->withErrors(['error' => 'شماره تلفن یافت نشد!']);
+        }
+
+        $request->merge(['phone_number' => $phoneNumber]); // برای اعتبارسنجی
         $request->validate(['phone_number' => 'required|regex:/^09[0-9]{9}$/']);
-        $phoneNumber = $request->phone_number;
+
         $code = rand(100000, 999999);
         $expiresAt = Carbon::now()->addMinutes(5);
-        OtpCode::create(['phone_number' => $phoneNumber, 'code' => $code, 'expires_at' => $expiresAt]);
+        OtpCode::updateOrCreate(
+            ['phone_number' => $phoneNumber],
+            ['code' => $code, 'expires_at' => $expiresAt, 'is_used' => false]
+        );
 
         $apiKey = env('SABANOVIN_API_KEY');
         $gateway = "50003190"; // خط خودت رو بذار
@@ -71,6 +82,7 @@ class OtpController extends Controller
             $user = \App\Models\User::create([
                 'name' => null, // چون هنوز وارد نکرده
                 'phone_number' => $phoneNumber,
+                'role' => 'user', // نقش پیش‌فرض
             ]);
             $isNew = true;
         }
@@ -83,5 +95,4 @@ class OtpController extends Controller
     
         return redirect()->route('dashboard')->with('success', 'ورود موفق!');
     }
-    
 }

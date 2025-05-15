@@ -1,0 +1,162 @@
+ 
+        body {
+            font-family: 'Vazirmatn', sans-serif;
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            overflow: hidden;
+            background: #f7fafc; /* پس‌زمینه خیلی روشن برای کل صفحه */
+        }
+        .container-fluid {
+            display: flex;
+            flex-direction: row;
+            height: 100%;
+            width: 100%;
+        }
+        .left-section {
+            flex: 1;
+            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+            color: white;
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-width: 350px;
+        }
+        .logo {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #ec4899;
+        }
+        .illustration {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .illustration img {
+            max-width: 250px;
+        }
+        .left-section p {
+            font-size: 0.9rem;
+            line-height: 1.8;
+            opacity: 0.9;
+        }
+        .right-section {
+            flex: 1.5;
+            background: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 50px;
+            min-width: 500px;
+        }
+        .form-container {
+            max-width: 380px;
+            width: 100%;
+        }
+        .form-container h3 {
+            font-size: 1.6rem;
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+        .form-container .subtitle {
+            font-size: 0.9rem;
+            color: #718096;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+        .form-control {
+            font-size: 1rem;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid #e5e7eb;
+            text-align: center;
+            color: #2d3748;
+        }
+        .btn-primary {
+            width: 100%;
+            padding: 12px;
+            font-size: 1rem;
+            border-radius: 8px;
+            background-color: #4a90e2;
+            border: none;
+            transition: background-color 0.2s;
+        }
+        .btn-primary:hover {
+            background-color: #357abd;
+        }
+        .form-check-label {
+            font-size: 0.9rem;
+            color: #718096;
+        }
+        .signup-link {
+            font-size: 0.9rem;
+            color: #718096;
+            margin-top: 20px;
+            text-align: center;
+        }
+        .signup-link a {
+            color: #4a90e2;
+            text-decoration: none;
+        }
+        .signup-link a:hover {
+            text-decoration: underline;
+        }
+        .invalid-feedback {
+            font-size: 0.85rem;
+        }
+        @media (max-width: 900px) {
+            body {
+                justify-content: center;
+                align-items: center;
+            }
+            .left-section {
+                display: none;
+            }
+            .right-section {
+                flex: 1;
+                width: 100%;
+                height: 100%;
+                justify-content: center;
+                align-items: center;
+                padding: 20px;
+                background: none; /* پس‌زمینه کل صفحه رو می‌گیریم */
+            }
+            .form-container {
+                max-width: 90%; /* فرم تا 90% عرض صفحه */
+                padding: 25px;
+                background: white;
+                border-radius: 12px;
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05); /* سایه ملایم */
+                border: 1px solid #edf2f7; /* بوردر نرم‌تر */
+            }
+            .form-container h3 {
+                font-size: 1.4rem;
+                color: #2d3748;
+            }
+            .form-container .subtitle {
+                font-size: 0.85rem;
+                color: #718096;
+            }
+            .form-control {
+                border: 1px solid #d2d6dc;
+                color: #2d3748;
+            }
+            .btn-primary {
+                background-color: #4a90e2;
+            }
+            .btn-primary:hover {
+                background-color: #357abd;
+            }
+            .form-check-label {
+                color: #718096;
+            }
+            .signup-link {
+                color: #718096;
+            }
+            .signup-link a {
+                color: #4a90e2;
+            }
+        }
+   

@@ -13,64 +13,10 @@
 
     <!-- Vazirmatn Font -->
     <link href="https://cdn.jsdelivr.net/npm/vazirmatn@33.0.3/Vazirmatn-font-face.css" rel="stylesheet">
-
-    <style>
-        body {
-            font-family: 'Vazirmatn', sans-serif;
-            margin: 0;
-            padding-top: 56px; /* ارتفاع navbar */
-        }
-        .navbar {
-            background-color: #ffffff;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            position: fixed;
-            top: 0;
-            right: 0;
-            left: 0;
-            z-index: 1030; /* بالاتر از همه المان‌ها */
-            height: 56px;
-        }
-        .navbar .container-fluid {
-            padding: 0 15px;
-        }
-        .navbar-collapse {
-            display: flex !important; /* مطمئن شیم تو موبایل مخفی نمی‌شه */
-        }
-        .sidebar {
-            height: calc(100vh - 56px);
-            position: fixed;
-            top: 56px;
-            right: 0;
-            width: 250px;
-            background-color: #f8f9fa;
-            padding-top: 20px;
-            transition: transform 0.3s ease-in-out;
-        }
-        .content {
-            margin-right: 250px;
-            padding: 20px;
-            min-height: calc(100vh - 56px);
-        }
-        /* تنظیمات رسپانسیو */
-        @media (max-width: 767.98px) {
-            .sidebar {
-                transform: translateX(100%);
-            }
-            .content {
-                margin-right: 0;
-            }
-            .sidebar.show {
-                transform: translateX(0);
-            }
-            /* navbar تو موبایل همیشه نمایش داده بشه */
-            .navbar {
-                display: block !important;
-            }
-            .navbar-collapse {
-                display: none !important; /* منوها تو موبایل پشت همبرگری مخفی بمونن */
-            }
-        }
-    </style>
+    <!-- Font Awesome برای آیکون‌ها -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- فایل CSS -->
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-light">

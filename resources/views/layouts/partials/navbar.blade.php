@@ -11,7 +11,18 @@
                 </a>
                 <ul class="dropdown-menu dropdown-menu-start" aria-labelledby="userDropdown">
                     <li><a class="dropdown-item" href="#">پروفایل</a></li>
-                    <li><a class="dropdown-item" href="#">خروج</a></li>
+                    <li><a class="dropdown-item" href="#">
+<form method="POST" action="{{ route('logout') }}">
+                                @csrf
+                                <x-dropdown-link :href="route('logout')"
+                                        onclick="event.preventDefault();
+                                                    this.closest('form').submit();">
+                                    خروج
+                                </x-dropdown-link>
+                            </form>
+                    </a></li>
+
+                     
                 </ul>
             </li>
         </ul>

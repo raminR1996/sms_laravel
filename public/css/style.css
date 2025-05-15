@@ -1,69 +1,261 @@
-body {
-    font-family: 'Vazirmatn', sans-serif;
-    direction: rtl;
-    text-align: right;
+      body {
+            font-family: 'Vazirmatn', sans-serif;
+            margin: 0;
+            padding-top: 56px; /* ارتفاع navbar */
+        }
+        .navbar {
+            background-color: #ffffff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            top: 0;
+            right: 0;
+            left: 0;
+            z-index: 1030; /* بالاتر از همه المان‌ها */
+            height: 56px;
+        }
+        .navbar .container-fluid {
+            padding: 0 15px;
+        }
+        .navbar-collapse {
+            display: flex !important; /* مطمئن شیم تو موبایل مخفی نمی‌شه */
+        }
+        .sidebar {
+            height: calc(100vh - 56px);
+            position: fixed;
+            top: 56px;
+            right: 0;
+            width: 250px;
+            background-color: #f8f9fa;
+            padding-top: 20px;
+            transition: transform 0.3s ease-in-out;
+        }
+        .content {
+            margin-right: 250px;
+            padding: 20px;
+            min-height: calc(100vh - 56px);
+        }
+        /* تنظیمات رسپانسیو */
+        @media (max-width: 767.98px) {
+            .sidebar {
+                transform: translateX(100%);
+            }
+            .content {
+                margin-right: 0;
+            }
+            .sidebar.show {
+                transform: translateX(0);
+            }
+            /* navbar تو موبایل همیشه نمایش داده بشه */
+            .navbar {
+                display: block !important;
+            }
+            .navbar-collapse {
+                display: none !important; /* منوها تو موبایل پشت همبرگری مخفی بمونن */
+            }
+        }
+
+.profile-page body {
+    background: #f7fafc;
 }
 
-h1, h2, h3, h4, h5, h6 {
-    font-family: 'Vazirmatn', sans-serif;
-    font-weight: 700;
+.profile-page .container {
+    padding: 2rem 1rem;
 }
 
-p, a, li, button, input, textarea {
-    font-family: 'Vazirmatn', sans-serif;
-    font-weight: 400;
+.profile-page .card {
+    border-radius: 20px;
+    border: none;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+    background: white;
 }
 
-/* تنظیمات اضافی برای Bootstrap */
-.navbar, .card, .btn {
-    font-family: 'Vazirmatn', sans-serif;
-}
-
-/* استایل‌های فرم‌های ورود و ثبت‌نام */
-.card {
-    border-radius: 10px;
-}
-
-.form-control {
-    border-radius: 8px;
-}
-
-.btn-primary {
-    background-color: #007bff;
-    border-color: #007bff;
-    border-radius: 8px;
-}
-
-.btn-primary:hover {
-    background-color: #0056b3;
-    border-color: #004085;
-}
-
-.form-check-label {
-    font-size: 0.9rem;
-}
-
-/* استایل‌های داشبورد */
-.dashboard-nav .nav-link {
-    color: #333;
-    padding: 10px;
-    border-radius: 5px;
-    margin-bottom: 5px;
-}
-
-.dashboard-nav .nav-link:hover {
-    background-color: #f8f9fa;
-}
-
-.dashboard-nav .nav-link.active {
-    background-color: #007bff;
+.profile-page .card-header {
+    border-radius: 20px 20px 0 0;
+    background-color: #4a90e2;
+    padding: 1.5rem;
+    text-align: center;
     color: white;
 }
 
-.table {
-    font-size: 0.95rem;
+.profile-page .card-header h4 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
 }
 
-.badge {
+.profile-page .card-header p {
+    font-size: 0.9rem;
+    opacity: 0.9;
+    margin: 0;
+}
+
+.profile-page .card-body {
+    padding: 2rem;
+}
+
+.profile-page .card-footer {
+    border-radius: 0 0 20px 20px;
+    background-color: #f7fafc;
+    padding: 1rem;
+    text-align: center;
+}
+
+.profile-page .card-footer p {
     font-size: 0.85rem;
+    color: #718096;
+    margin: 0;
+}
+
+.profile-page .form-label {
+    font-size: 0.9rem;
+    color: #2d3748;
+    margin-bottom: 0.5rem;
+}
+
+.profile-page .form-control {
+    font-size: 0.95rem;
+    padding: 0.75rem;
+    border-radius: 8px;
+    border: 1px solid #d2d6dc;
+    color: #2d3748;
+    transition: border-color 0.2s ease;
+    background: #f7fafc;
+}
+
+.profile-page .form-control:focus {
+    border-color: #4a90e2;
+    box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.1);
+    outline: none;
+}
+
+.profile-page .form-control:disabled {
+    background: #e2e8f0;
+    opacity: 0.8;
+}
+
+.profile-page .input-group {
+    position: relative;
+}
+
+.profile-page .input-icon {
+    position: absolute;
+    top: 50%;
+    left: 12px;
+    transform: translateY(-50%);
+    color: #718096;
+    font-size: 1rem;
+}
+
+.profile-page .form-control.has-icon {
+    padding-left: 2.5rem;
+}
+
+.profile-page .invalid-feedback {
+    font-size: 0.85rem;
+    color: #e53e3e;
+}
+
+.profile-page .btn-success {
+    background-color: #38a169;
+    border: none;
+    padding: 0.75rem;
+    font-size: 1rem;
+    border-radius: 8px;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.profile-page .btn-success:hover {
+    background-color: #2f855a;
+    transform: translateY(-1px);
+}
+
+@media (max-width: 576px) {
+    .profile-page .container {
+        padding: 1rem;
+    }
+    .profile-page .card {
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    }
+    .profile-page .card-body {
+        padding: 1.5rem;
+    }
+    .profile-page .form-control {
+        font-size: 0.9rem;
+        padding: 0.65rem;
+    }
+    .profile-page .btn-success {
+        font-size: 0.95rem;
+        padding: 0.65rem;
+    }
+}
+
+
+.dashboard-page body {
+    background: #f7fafc;
+    font-family: 'IRANSans', sans-serif;
+}
+
+.dashboard-page .container {
+    padding: 2rem 1rem;
+    max-width: 1200px;
+}
+
+.dashboard-page .card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+}
+
+.dashboard-page .card {
+    border-radius: 15px;
+    border: none;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    background: white;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    padding: 1.5rem;
+}
+
+.dashboard-page .card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+}
+
+.dashboard-page .card-title {
+    font-size: 1.2rem;
+    color: #2d3748;
+    margin-bottom: 0.5rem;
+}
+
+.dashboard-page .card-text {
+    font-size: 0.9rem;
+    color: #718096;
+    margin-bottom: 1rem;
+}
+
+.dashboard-page .card-btn {
+    background-color: #4a90e2;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    transition: background-color 0.2s ease;
+}
+
+.dashboard-page .card-btn:hover {
+    background-color: #357abd;
+}
+
+@media (max-width: 576px) {
+    .dashboard-page .container {
+        padding: 1rem;
+    }
+    .dashboard-page .card {
+        padding: 1rem;
+    }
+    .dashboard-page .card-title {
+        font-size: 1.1rem;
+    }
+    .dashboard-page .card-text {
+        font-size: 0.85rem;
+    }
 }
