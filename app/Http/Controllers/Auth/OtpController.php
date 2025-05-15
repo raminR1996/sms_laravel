@@ -57,15 +57,31 @@ class OtpController extends Controller
                       ->where('is_used', false)
                       ->where('expires_at', '>', Carbon::now())
                       ->first();
-
+    
         if (!$otp) {
             return back()->withErrors(['code' => 'کد نامعتبر یا منقضی شده!']);
         }
-
+    
         $otp->update(['is_used' => true]);
-        $user = \App\Models\User::firstOrCreate(['phone_number' => $phoneNumber], ['name' => 'کاربر ' . $phoneNumber, 'phone_number' => $phoneNumber]);
+    
+        $user = \App\Models\User::where('phone_number', $phoneNumber)->first();
+        $isNew = false;
+    
+        if (!$user) {
+            $user = \App\Models\User::create([
+                'name' => null, // چون هنوز وارد نکرده
+                'phone_number' => $phoneNumber,
+            ]);
+            $isNew = true;
+        }
+    
         Auth::login($user);
-
+    
+        if ($isNew || !$user->name || !$user->email) {
+            return redirect()->route('profile.complete');
+        }
+    
         return redirect()->route('dashboard')->with('success', 'ورود موفق!');
     }
+    
 }

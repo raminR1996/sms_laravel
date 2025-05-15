@@ -57,4 +57,26 @@ class ProfileController extends Controller
 
         return Redirect::to('/');
     }
+
+    public function showCompleteForm()
+{
+    return view('profile.complete');
+}
+
+/**
+ * Store the completed profile information.
+ */
+public function storeCompleteForm(Request $request): RedirectResponse
+{
+    $request->validate([
+        'name' => 'required|string|max:255',
+        'email' => 'required|email|unique:users,email,' . auth()->id(),
+    ]);
+
+    $user = auth()->user();
+    $user->update($request->only('name', 'email'));
+
+    return redirect()->route('dashboard')->with('success', 'پروفایل با موفقیت تکمیل شد.');
+}
+
 }

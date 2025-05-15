@@ -3,61 +3,98 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>فروشگاه آنلاین</title>
-    <!-- Bootstrap 5 CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <title>@yield('title', 'پنل مدیریت')</title>
+
+    <!-- Bootstrap 5 RTL CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.rtl.min.css" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
     <!-- Vazirmatn Font -->
     <link href="https://cdn.jsdelivr.net/npm/vazirmatn@33.0.3/Vazirmatn-font-face.css" rel="stylesheet">
-    <!-- Font Awesome for Icons (اختیاری) -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <!-- فایل CSS سفارشی -->
-    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+
+    <style>
+        body {
+            font-family: 'Vazirmatn', sans-serif;
+            margin: 0;
+            padding-top: 56px; /* ارتفاع navbar */
+        }
+        .navbar {
+            background-color: #ffffff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            top: 0;
+            right: 0;
+            left: 0;
+            z-index: 1030; /* بالاتر از همه المان‌ها */
+            height: 56px;
+        }
+        .navbar .container-fluid {
+            padding: 0 15px;
+        }
+        .navbar-collapse {
+            display: flex !important; /* مطمئن شیم تو موبایل مخفی نمی‌شه */
+        }
+        .sidebar {
+            height: calc(100vh - 56px);
+            position: fixed;
+            top: 56px;
+            right: 0;
+            width: 250px;
+            background-color: #f8f9fa;
+            padding-top: 20px;
+            transition: transform 0.3s ease-in-out;
+        }
+        .content {
+            margin-right: 250px;
+            padding: 20px;
+            min-height: calc(100vh - 56px);
+        }
+        /* تنظیمات رسپانسیو */
+        @media (max-width: 767.98px) {
+            .sidebar {
+                transform: translateX(100%);
+            }
+            .content {
+                margin-right: 0;
+            }
+            .sidebar.show {
+                transform: translateX(0);
+            }
+            /* navbar تو موبایل همیشه نمایش داده بشه */
+            .navbar {
+                display: block !important;
+            }
+            .navbar-collapse {
+                display: none !important; /* منوها تو موبایل پشت همبرگری مخفی بمونن */
+            }
+        }
+    </style>
 </head>
 <body>
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="/">فروشگاه آنلاین</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav me-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="/">خانه</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/products">محصولات</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/cart">سبد خرید</a>
-                    </li>
-                </ul>
-                <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a class="nav-link" href="/login">ورود</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/register">ثبت‌نام</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
+    <nav class="navbar navbar-expand-lg navbar-light">
+        @include('layouts.partials.navbar')
     </nav>
 
-    <!-- Main Content -->
-    <main class="container my-5">
-        @yield('content')
-    </main>
-
-    <!-- Footer -->
-    <footer class="bg-light text-center py-3">
-        <p>© 2025 فروشگاه آنلاین. تمامی حقوق محفوظ است.</p>
-    </footer>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-9 content">
+                @yield('content')
+            </div>
+            <div class="col-md-3 sidebar" id="sidebar">
+                @include('layouts.partials.sidebar')
+            </div>
+        </div>
+    </div>
 
     <!-- Bootstrap 5 JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-    <!-- فایل JS سفارشی -->
-    <script src="{{ asset('js/app.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // نمایش/مخفی کردن سایدبار تو موبایل
+        document.getElementById('navbarToggler').addEventListener('click', function () {
+            document.getElementById('sidebar').classList.toggle('show');
+        });
+    </script>
 </body>
 </html>
