@@ -2,6 +2,7 @@
 
 @section('title', $siteTitle . ' - داشبورد مدیریت')
 @section('content')
+
     <div class="dashboard-page">
         <div class="container">
             <h1 class="text-center mb-4">{{ $siteTitle }} - داشبورد مدیریت</h1>

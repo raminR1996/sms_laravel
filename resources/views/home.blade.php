@@ -3,7 +3,7 @@
 @section('content')
     <div class="row">
         <div class="col-12">
-            <h1 class="text-center mb-4">خوش آمدید به فروشگاه آنلاین</h1>
+            <h1 class="text-center mb-4">خوش آمدید به {{ settings('site_title', 'درودزن پیام') }}</h1>
         </div>
     </div>
     <div class="row">

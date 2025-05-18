@@ -1,6 +1,6 @@
 @extends('layouts.layout')
 
-@section('title', 'ویرایش تنظیمات')
+@section('title', 'افزودن تنظیمات جدید')
 
 @section('content')
 <style>
@@ -35,20 +35,19 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="settings-card">
-                <h1 class="text-center">ویرایش تنظیمات</h1>
+                <h1 class="text-center">افزودن تنظیمات جدید</h1>
 
                 @if(session('success'))
                     <div class="alert alert-success text-center">{{ session('success') }}</div>
                 @endif
 
-                <form action="{{ route('admin.settings.update', $setting->id) }}" method="POST">
+                <form action="{{ route('admin.settings.store') }}" method="POST">
                     @csrf
-                    @method('PUT')
                     <div class="mb-3">
                         <label for="key" class="form-label">کلید</label>
                         <input type="text" name="key" id="key"
                                class="form-control @error('key') is-invalid @enderror"
-                               value="{{ old('key', $setting->key) }}" required>
+                               value="{{ old('key') }}" required>
                         @error('key')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
@@ -57,7 +56,7 @@
                     <div class="mb-3">
                         <label for="value" class="form-label">مقدار</label>
                         <textarea name="value" id="value" rows="4"
-                                  class="form-control @error('value') is-invalid @enderror">{{ old('value', $setting->value) }}</textarea>
+                                  class="form-control @error('value') is-invalid @enderror">{{ old('value') }}</textarea>
                         @error('value')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror

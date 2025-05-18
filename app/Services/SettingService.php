@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Services;
 
 use App\Models\Setting;
@@ -8,11 +9,18 @@ class SettingService
 {
     protected $cacheKey = 'settings_cache';
 
-    public function getSettings()
+    public function getSettings($key = null)
     {
-        return Cache::remember($this->cacheKey, 3600, function () {
-            return Setting::first();
+        $settings = Cache::remember($this->cacheKey, 3600, function () {
+            return Setting::pluck('value', 'key')->toArray();
         });
+
+        return $key ? ($settings[$key] ?? null) : $settings;
+    }
+
+    public function getAllSettings()
+    {
+        return Setting::all();
     }
 
     public function clearCache()
@@ -20,15 +28,25 @@ class SettingService
         Cache::forget($this->cacheKey);
     }
 
-    public function updateSettings(array $data)
+    public function createSetting(array $data)
     {
-        $setting = Setting::first();
-        if (!$setting) {
-            $setting = Setting::create($data);
-        } else {
-            $setting->update($data);
-        }
+        $setting = Setting::create($data);
         $this->clearCache();
         return $setting;
+    }
+
+    public function updateSetting($id, array $data)
+    {
+        $setting = Setting::findOrFail($id);
+        $setting->update($data);
+        $this->clearCache();
+        return $setting;
+    }
+
+    public function deleteSetting($id)
+    {
+        $setting = Setting::findOrFail($id);
+        $setting->delete();
+        $this->clearCache();
     }
 }

@@ -1,5 +1,5 @@
 <div class="container-fluid">
-    <a class="navbar-brand" href="#">پنل مدیریت</a>
+    <a class="navbar-brand" href="#">  </a>
     <button class="navbar-toggler" type="button" id="navbarToggler" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>

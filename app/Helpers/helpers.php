@@ -1,6 +1,6 @@
 <?php
 
-if (! function_exists('settings')) {
+if (!function_exists('settings')) {
     /**
      * دسترسی آسان به تنظیمات کش شده
      * 
@@ -8,19 +8,14 @@ if (! function_exists('settings')) {
      * @param mixed $default
      * @return mixed
      */
-    function settings($key = null, $default = null)
-    {
-        $setting = app(\App\Services\SettingService::class)->getSettings();
+  function settings($key = null, $default = null)
+{
+    $settings = app(\App\Services\SettingService::class)->getSettings();
 
-        if (!$setting) {
-            return $default ?? null;
-        }
-
-        if ($key === null) {
-            return $setting;
-        }
-
-        return $setting->$key ?? $default;
+    if ($key === null) {
+        return $settings;
     }
-}
 
+    return $settings[$key] ?? $default;
+}
+}
