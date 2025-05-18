@@ -15,7 +15,7 @@ class DashboardController extends Controller
         $user = Auth::user();
         switch ($user->role) {
             case 'admin':
-                return view('dashboard.admin', compact('siteTitle'));
+                  return redirect()->route('admin.dashboard');
             case 'staff':
                 return view('dashboard.staff', compact('siteTitle'));
             case 'user':
@@ -23,5 +23,12 @@ class DashboardController extends Controller
             default:
                 return redirect()->route('dashboard')->with('error', 'نقش نامعتبر!');
         }
+    }
+
+    public function test()
+    {
+        // دسترسی به تنظیمات 
+        $title = settings('site_title');
+        $allSettings = settings();
     }
 }

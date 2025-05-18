@@ -35,11 +35,11 @@ Route::middleware('auth')->group(function () {
     Route::post('/profile/complete', [ProfileController::class, 'storeCompleteForm'])->name('profile.complete.store');
 });
 
-// تنظیمات (فقط برای مدیر)
-    Route::middleware('role:admin')->group(function () {
-    Route::get('/settings', [SettingsController::class, 'index'])->name('settings.index');
-    Route::post('/settings', [SettingsController::class, 'update'])->name('settings.update');
-        });
+// // تنظیمات (فقط برای مدیر)
+//     Route::middleware('role:admin')->group(function () {
+//     Route::get('/settings', [SettingsController::class, 'index'])->name('settings.index');
+//     Route::post('/settings', [SettingsController::class, 'update'])->name('settings.update');
+//         });
 
               // ارسال پیامک (برای همه نقش‌ها)
         Route::get('/send-sms', [DashboardController::class, 'sendSms'])->name('send.sms');
@@ -49,3 +49,5 @@ Route::middleware('auth')->group(function () {
         });
 
 require __DIR__.'/auth.php';
+//  روت‌های ادمین
+require __DIR__.'/admin.php';
