@@ -1,59 +1,278 @@
-      body {
-            font-family: 'Vazirmatn', sans-serif;
-            margin: 0;
-            padding-top: 56px; /* ارتفاع navbar */
-        }
-        .navbar {
-            background-color: #ffffff;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            position: fixed;
-            top: 0;
-            right: 0;
-            left: 0;
-            z-index: 1030; /* بالاتر از همه المان‌ها */
-            height: 56px;
-        }
-        .navbar .container-fluid {
-            padding: 0 15px;
-        }
-        .navbar-collapse {
-            display: flex !important; /* مطمئن شیم تو موبایل مخفی نمی‌شه */
-        }
-        .sidebar {
-            height: calc(100vh - 56px);
-            position: fixed;
-            top: 56px;
-            right: 0;
-            width: 250px;
-            background-color: #f8f9fa;
-            padding-top: 20px;
-            transition: transform 0.3s ease-in-out;
-        }
-        .content {
-            margin-right: 250px;
-            padding: 20px;
-            min-height: calc(100vh - 56px);
-        }
-        /* تنظیمات رسپانسیو */
-        @media (max-width: 767.98px) {
-            .sidebar {
-                transform: translateX(100%);
-            }
-            .content {
-                margin-right: 0;
-            }
-            .sidebar.show {
-                transform: translateX(0);
-            }
-            /* navbar تو موبایل همیشه نمایش داده بشه */
-            .navbar {
-                display: block !important;
-            }
-            .navbar-collapse {
-                display: none !important; /* منوها تو موبایل پشت همبرگری مخفی بمونن */
-            }
-        }
+/* استایل‌های عمومی */
+body {
+    font-family: 'Vazirmatn', sans-serif;
+    margin: 0;
+    padding-top: 56px; /* ارتفاع navbar */
+    background-color: #f8f9fa; /* اضافه شده از پیشنهاد برای پس‌زمینه روشن */
+    direction: rtl; /* اضافه شده برای اطمینان از RTL */
+    text-align: right; /* اضافه شده برای RTL */
+}
 
+.navbar {
+    background-color: #ffffff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    z-index: 1030;
+    height: 56px;
+    padding: 0.5rem 0; /* کاهش padding برای موبایل */
+}
+
+.navbar .container {
+    padding: 0 10px; /* تنظیم padding برای جلوگیری از بیرون‌زدگی */
+}
+
+.navbar-collapse {
+    display: flex !important;
+}
+
+.navbar-nav .nav-link {
+    font-size: 1.1rem;
+    margin-left: 1rem;
+    color: #333;
+}
+
+.navbar-nav .nav-link.active {
+    color: #007bff;
+    font-weight: bold;
+}
+
+.navbar-brand img {
+    width: 120px; /* عرض کمتر برای هماهنگی بهتر */
+    height: auto;
+}
+
+.navbar-toggler {
+    padding: 0.25rem 0.5rem; /* کاهش padding برای همبرگری */
+}
+
+/* تنظیمات موبایل */
+@media (max-width: 767.98px) {
+    .navbar {
+        padding: 0.5rem 0;
+    }
+    .navbar-brand img {
+        width: 100px; /* عرض کمتر تو موبایل */
+    }
+    .navbar-toggler {
+        margin-left: 10px; /* تنظیم فاصله همبرگری */
+    }
+    .navbar-collapse {
+        display: none !important; /* مخفی کردن منو تو موبایل */
+    }
+    .navbar-collapse.show {
+        display: block !important; /* نمایش منو وقتی همبرگری بازه */
+    }
+}
+.sidebar {
+    height: calc(100vh - 56px);
+    position: fixed;
+    top: 56px;
+    right: 0;
+    width: 250px;
+    background-color: #f8f9fa;
+    padding-top: 20px;
+    transition: transform 0.3s ease-in-out;
+}
+
+.content {
+    padding: 20px;
+    min-height: calc(100vh - 56px);
+}
+
+/* استایل‌های دکمه‌های عمومی */
+.btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+    padding: 10px 20px;
+    border-radius: 8px;
+    transition: all 0.3s ease; /* اضافه شده از پیشنهاد */
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+    border-color: #004085;
+}
+
+/* استایل‌های هیرو */
+.hero-section {
+    min-height: 500px; /* تغییر از 400px به 500px برای جلوه بهتر */
+    display: flex;
+    align-items: center;
+    justify-content: center; /* اضافه شده از پیشنهاد */
+    background-position: center;
+    background-size: cover;
+    text-align: center;
+    color: white;
+}
+
+.hero-section h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3); /* اضافه شده از پیشنهاد */
+}
+
+.hero-section p {
+    font-size: 1.25rem;
+    margin-bottom: 1.5rem;
+}
+
+/* استایل‌های بخش خدمات */
+.services-section {
+    background-color: #f8f9fa;
+}
+
+.services-section .card {
+    border: none;
+    border-radius: 10px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.services-section .card:hover {
+    transform: translateY(-10px); /* تغییر از -5px به -10px برای افکت قوی‌تر */
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.services-section .card i {
+    font-size: 3rem; /* اضافه شده از پیشنهاد */
+    color: #007bff; /* اضافه شده از پیشنهاد */
+}
+
+/* استایل‌های بخش تعرفه‌ها */
+.pricing-section {
+    background-color: #fff;
+}
+
+.pricing-section h2 {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #2d3748;
+}
+
+.pricing-section .card {
+    border: none;
+    border-radius: 15px;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    background-color: #fff;
+    text-align: center; /* اطمینان از وسط‌چین بودن کل کارت */
+}
+
+.pricing-section .card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+}
+
+.pricing-section .card-header {
+    background-color: #007bff;
+    color: white;
+    font-weight: bold;
+    border-radius: 15px 15px 0 0;
+    padding: 1.2rem;
+    font-size: 1.25rem;
+    text-align: center; /* وسط‌چین کردن عنوان هدر */
+}
+
+.pricing-section .card-body {
+    padding: 2rem;
+    text-align: center; /* اطمینان از وسط‌چین بودن محتوای بدنه */
+}
+
+.pricing-section .pricing-price {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #2d3748;
+    margin-bottom: 1rem;
+    display: block; /* مطمئن شدن از وسط‌چین شدن */
+}
+
+.pricing-section .card-text {
+    font-size: 1rem;
+    color: #718096;
+    margin-bottom: 1.5rem;
+    text-align: center; /* وسط‌چین کردن توضیحات */
+}
+
+.pricing-section .pricing-features {
+    padding: 0;
+    text-align: center; /* وسط‌چین کردن لیست */
+}
+
+.pricing-section .pricing-features li {
+    font-size: 0.95rem;
+    color: #2d3748;
+    margin-bottom: 0.75rem;
+    position: relative;
+    padding-right: 1.5rem;
+    display: inline-block; /* برای تنظیم بهتر موقعیت تیک */
+    text-align: right; /* جهت RTL برای متن لیست */
+}
+
+.pricing-section .pricing-features li::before {
+    content: '✔';
+    position: absolute;
+    right: 0;
+    color: #38a169;
+    font-size: 1rem;
+}
+
+.pricing-section .badge {
+    font-size: 0.9rem;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    margin-left: 134px !important;
+}
+
+.pricing-section .btn {
+    padding: 0.75rem 2rem;
+    font-size: 1rem;
+    border-radius: 8px;
+    transition: transform 0.2s ease, background-color 0.3s ease;
+    display: inline-block; /* مطمئن شدن از وسط‌چین شدن دکمه */
+}
+
+.pricing-section .btn:hover {
+    transform: translateY(-2px);
+}
+
+/* رسپانسیو کردن */
+@media (max-width: 576px) {
+    .pricing-section h2 {
+        font-size: 2rem;
+    }
+    .pricing-section .card-body {
+        padding: 1.5rem;
+    }
+    .pricing-section .pricing-price {
+        font-size: 1.75rem;
+    }
+    .pricing-section .btn {
+        padding: 0.65rem 1.5rem;
+        font-size: 0.95rem;
+    }
+    .pricing-section .pricing-features li {
+        text-align: center; /* تنظیم بهتر تو موبایل */
+    }
+}
+/* استایل‌های فوتر */
+footer {
+    background-color: #343a40;
+    color: white;
+}
+
+footer a {
+    text-decoration: none;
+    color: #fff;
+    transition: color 0.3s ease; /* اضافه شده از پیشنهاد */
+}
+
+footer a:hover {
+    color: #007bff !important; /* تغییر از text-decoration به رنگ برای جلوه بهتر */
+}
+
+/* استایل‌های صفحه پروفایل */
 .profile-page body {
     background: #f7fafc;
 }
@@ -169,30 +388,10 @@
     transform: translateY(-1px);
 }
 
-@media (max-width: 576px) {
-    .profile-page .container {
-        padding: 1rem;
-    }
-    .profile-page .card {
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-    }
-    .profile-page .card-body {
-        padding: 1.5rem;
-    }
-    .profile-page .form-control {
-        font-size: 0.9rem;
-        padding: 0.65rem;
-    }
-    .profile-page .btn-success {
-        font-size: 0.95rem;
-        padding: 0.65rem;
-    }
-}
-
-
+/* استایل‌های صفحه داشبورد */
 .dashboard-page body {
     background: #f7fafc;
-    font-family: 'IRANSans', sans-serif;
+    font-family: 'Vazirmatn', sans-serif;
 }
 
 .dashboard-page .container {
@@ -245,7 +444,52 @@
     background-color: #357abd;
 }
 
+/* استایل‌های رسپانسیو */
+@media (max-width: 767.98px) {
+    .sidebar {
+        transform: translateX(100%);
+    }
+    .sidebar.show {
+        transform: translateX(0);
+    }
+    .navbar {
+        display: block !important;
+    }
+    .navbar-collapse {
+        display: none !important;
+    }
+    .hero-section h1 {
+        font-size: 2rem;
+    }
+    .hero-section p {
+        font-size: 1rem;
+    }
+    .services-section .card {
+        margin-bottom: 1rem;
+    }
+    .navbar-brand img {
+        width: 120px;
+    }
+}
+
 @media (max-width: 576px) {
+    .profile-page .container {
+        padding: 1rem;
+    }
+    .profile-page .card {
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    }
+    .profile-page .card-body {
+        padding: 1.5rem;
+    }
+    .profile-page .form-control {
+        font-size: 0.9rem;
+        padding: 0.65rem;
+    }
+    .profile-page .btn-success {
+        font-size: 0.95rem;
+        padding: 0.65rem;
+    }
     .dashboard-page .container {
         padding: 1rem;
     }
