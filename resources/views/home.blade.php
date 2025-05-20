@@ -6,7 +6,7 @@
     <div class="container">
         <h1 class="display-3 mb-4 animate__animated animate__fadeIn">سامانه پیامکی حرفه‌ای {{ settings('site_title', 'پیام فردا') }}</h1>
         <p class="lead mb-4 animate__animated animate__fadeIn animate__delay-1s">ارسال پیامک انبوه، خدماتی و تبلیغاتی با سرعت و اطمینان</p>
-        <a href="{{ url('/register') }}" class="btn btn-primary  btn-lg px-5 animate__animated animate__fadeIn animate__delay-2s">همین حالا شروع کنید</a>
+        <a href="{{ url('/register') }}" class="btn btn-primary btn-lg px-5 animate__animated animate__fadeIn animate__delay-2s">همین حالا شروع کنید</a>
     </div>
 </section>
 
@@ -55,7 +55,7 @@
                     <div class="card-header bg-primary text-white">
                         <h5 class="mb-0">پایه</h5>
                     </div>
-                    <div class="card-body text-center"> <!-- اضافه کردن text-center به card-body -->
+                    <div class="card-body text-center">
                         <h3 class="card-title pricing-price">۵۰,۰۰۰ تومان</h3>
                         <p class="card-text">مناسب برای کسب‌وکارهای کوچک</p>
                         <ul class="list-unstyled pricing-features">
@@ -73,7 +73,7 @@
                     <div class="card-header bg-primary text-white">
                         <h5 class="mb-0">حرفه‌ای</h5>
                     </div>
-                    <div class="card-body text-center"> <!-- اضافه کردن text-center به card-body -->
+                    <div class="card-body text-center">
                         <h3 class="card-title pricing-price">۱۵۰,۰۰۰ تومان</h3>
                         <p class="card-text">مناسب برای کسب‌وکارهای متوسط</p>
                         <ul class="list-unstyled pricing-features">

@@ -1,11 +1,16 @@
 <div class="container-fluid">
-    <a class="navbar-brand" href="#">  </a>
+     <a class="navbar-brand" href="{{ url('/') }}">
+                <img src="{{ asset('images/logo.png') }}" alt="پیام فردا" width="150" loading="lazy">
+                 </a>
     <button class="navbar-toggler" type="button" id="navbarToggler" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
+     
     <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav me-auto">
+        <ul class="navbar-nav ms-auto">
+           
             <li class="nav-item dropdown">
+               
                 <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                     <i class="fas fa-user"></i>
                 </a>

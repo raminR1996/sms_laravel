@@ -35,7 +35,7 @@
                 <div class="card">
                     <h5 class="card-title">مدیریت کاربران</h5>
                     <p class="card-text">ایجاد و مدیریت کاربران سیستم.</p>
-                    <a href="#" class="card-btn">مدیریت کاربران</a>
+                    <a href="{{ route('admin.users.index') }}" class="card-btn">مدیریت کاربران</a>
                 </div>
             </div>
             <div class="card mt-4">

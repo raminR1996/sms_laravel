@@ -35,7 +35,7 @@ class OtpController extends Controller
             ['code' => $code, 'expires_at' => $expiresAt, 'is_used' => false]
         );
 
-        $apiKey = env('SABANOVIN_API_KEY');
+        $apiKey = "sa860834070:ZJHjI1D9vxgnantqc5NQ7AKdhl8xHDUWTANW";
         $gateway = "50003190"; // خط خودت رو بذار
         $text = "کد ورود شما: $code   لغو11";
         $to = [$phoneNumber];

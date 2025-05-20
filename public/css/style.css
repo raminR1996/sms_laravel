@@ -2,10 +2,10 @@
 body {
     font-family: 'Vazirmatn', sans-serif;
     margin: 0;
-    padding-top: 56px; /* ارتفاع navbar */
-    background-color: #f8f9fa; /* اضافه شده از پیشنهاد برای پس‌زمینه روشن */
-    direction: rtl; /* اضافه شده برای اطمینان از RTL */
-    text-align: right; /* اضافه شده برای RTL */
+    padding-top: 56px;
+    background-color: #f8f9fa;
+    direction: rtl;
+    text-align: right;
 }
 
 .navbar {
@@ -17,11 +17,11 @@ body {
     left: 0;
     z-index: 1030;
     height: 56px;
-    padding: 0.5rem 0; /* کاهش padding برای موبایل */
+    padding: 0.5rem 0;
 }
 
 .navbar .container {
-    padding: 0 10px; /* تنظیم padding برای جلوگیری از بیرون‌زدگی */
+    padding: 0 10px;
 }
 
 .navbar-collapse {
@@ -40,12 +40,12 @@ body {
 }
 
 .navbar-brand img {
-    width: 120px; /* عرض کمتر برای هماهنگی بهتر */
+    width: 120px;
     height: auto;
 }
 
 .navbar-toggler {
-    padding: 0.25rem 0.5rem; /* کاهش padding برای همبرگری */
+    padding: 0.25rem 0.5rem;
 }
 
 /* تنظیمات موبایل */
@@ -54,27 +54,38 @@ body {
         padding: 0.5rem 0;
     }
     .navbar-brand img {
-        width: 100px; /* عرض کمتر تو موبایل */
+        width: 100px;
     }
     .navbar-toggler {
-        margin-left: 10px; /* تنظیم فاصله همبرگری */
+        margin-left: 10px;
+        border: none;
+        padding: 0.4rem 0.6rem;
+    }
+    .navbar-toggler-icon {
+        width: 1.5em;
+        height: 1.5em;
     }
     .navbar-collapse {
-        display: none !important; /* مخفی کردن منو تو موبایل */
+        display: none !important;
     }
     .navbar-collapse.show {
-        display: block !important; /* نمایش منو وقتی همبرگری بازه */
+        display: block !important;
+        background-color: #fff;
+        padding: 1rem;
+        border-radius: 5px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        margin-top: 0.5rem;
     }
-}
-.sidebar {
-    height: calc(100vh - 56px);
-    position: fixed;
-    top: 56px;
-    right: 0;
-    width: 250px;
-    background-color: #f8f9fa;
-    padding-top: 20px;
-    transition: transform 0.3s ease-in-out;
+    .navbar-nav .nav-link {
+        padding: 0.75rem 1rem;
+        font-size: 1rem;
+        color: #333 !important;
+        text-align: right;
+        transition: color 0.3s ease;
+    }
+    .navbar-nav .nav-link:hover {
+        color: #007bff !important;
+    }
 }
 
 .content {
@@ -88,7 +99,7 @@ body {
     border-color: #007bff;
     padding: 10px 20px;
     border-radius: 8px;
-    transition: all 0.3s ease; /* اضافه شده از پیشنهاد */
+    transition: all 0.3s ease;
 }
 
 .btn-primary:hover {
@@ -98,10 +109,10 @@ body {
 
 /* استایل‌های هیرو */
 .hero-section {
-    min-height: 500px; /* تغییر از 400px به 500px برای جلوه بهتر */
+    min-height: 500px;
     display: flex;
     align-items: center;
-    justify-content: center; /* اضافه شده از پیشنهاد */
+    justify-content: center;
     background-position: center;
     background-size: cover;
     text-align: center;
@@ -111,7 +122,7 @@ body {
 .hero-section h1 {
     font-size: 2.5rem;
     font-weight: 700;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3); /* اضافه شده از پیشنهاد */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 .hero-section p {
@@ -131,13 +142,13 @@ body {
 }
 
 .services-section .card:hover {
-    transform: translateY(-10px); /* تغییر از -5px به -10px برای افکت قوی‌تر */
+    transform: translateY(-10px);
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
 }
 
 .services-section .card i {
-    font-size: 3rem; /* اضافه شده از پیشنهاد */
-    color: #007bff; /* اضافه شده از پیشنهاد */
+    font-size: 3rem;
+    color: #007bff;
 }
 
 /* استایل‌های بخش تعرفه‌ها */
@@ -157,7 +168,7 @@ body {
     overflow: hidden;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     background-color: #fff;
-    text-align: center; /* اطمینان از وسط‌چین بودن کل کارت */
+    text-align: center;
 }
 
 .pricing-section .card:hover {
@@ -172,12 +183,12 @@ body {
     border-radius: 15px 15px 0 0;
     padding: 1.2rem;
     font-size: 1.25rem;
-    text-align: center; /* وسط‌چین کردن عنوان هدر */
+    text-align: center;
 }
 
 .pricing-section .card-body {
     padding: 2rem;
-    text-align: center; /* اطمینان از وسط‌چین بودن محتوای بدنه */
+    text-align: center;
 }
 
 .pricing-section .pricing-price {
@@ -185,19 +196,19 @@ body {
     font-weight: bold;
     color: #2d3748;
     margin-bottom: 1rem;
-    display: block; /* مطمئن شدن از وسط‌چین شدن */
+    display: block;
 }
 
 .pricing-section .card-text {
     font-size: 1rem;
     color: #718096;
     margin-bottom: 1.5rem;
-    text-align: center; /* وسط‌چین کردن توضیحات */
+    text-align: center;
 }
 
 .pricing-section .pricing-features {
     padding: 0;
-    text-align: center; /* وسط‌چین کردن لیست */
+    text-align: center;
 }
 
 .pricing-section .pricing-features li {
@@ -206,8 +217,8 @@ body {
     margin-bottom: 0.75rem;
     position: relative;
     padding-right: 1.5rem;
-    display: inline-block; /* برای تنظیم بهتر موقعیت تیک */
-    text-align: right; /* جهت RTL برای متن لیست */
+    display: inline-block;
+    text-align: right;
 }
 
 .pricing-section .pricing-features li::before {
@@ -230,7 +241,7 @@ body {
     font-size: 1rem;
     border-radius: 8px;
     transition: transform 0.2s ease, background-color 0.3s ease;
-    display: inline-block; /* مطمئن شدن از وسط‌چین شدن دکمه */
+    display: inline-block;
 }
 
 .pricing-section .btn:hover {
@@ -253,9 +264,10 @@ body {
         font-size: 0.95rem;
     }
     .pricing-section .pricing-features li {
-        text-align: center; /* تنظیم بهتر تو موبایل */
+        text-align: center;
     }
 }
+
 /* استایل‌های فوتر */
 footer {
     background-color: #343a40;
@@ -265,241 +277,9 @@ footer {
 footer a {
     text-decoration: none;
     color: #fff;
-    transition: color 0.3s ease; /* اضافه شده از پیشنهاد */
+    transition: color 0.3s ease;
 }
 
 footer a:hover {
-    color: #007bff !important; /* تغییر از text-decoration به رنگ برای جلوه بهتر */
-}
-
-/* استایل‌های صفحه پروفایل */
-.profile-page body {
-    background: #f7fafc;
-}
-
-.profile-page .container {
-    padding: 2rem 1rem;
-}
-
-.profile-page .card {
-    border-radius: 20px;
-    border: none;
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
-    background: white;
-}
-
-.profile-page .card-header {
-    border-radius: 20px 20px 0 0;
-    background-color: #4a90e2;
-    padding: 1.5rem;
-    text-align: center;
-    color: white;
-}
-
-.profile-page .card-header h4 {
-    font-size: 1.5rem;
-    font-weight: 600;
-    margin-bottom: 0.5rem;
-}
-
-.profile-page .card-header p {
-    font-size: 0.9rem;
-    opacity: 0.9;
-    margin: 0;
-}
-
-.profile-page .card-body {
-    padding: 2rem;
-}
-
-.profile-page .card-footer {
-    border-radius: 0 0 20px 20px;
-    background-color: #f7fafc;
-    padding: 1rem;
-    text-align: center;
-}
-
-.profile-page .card-footer p {
-    font-size: 0.85rem;
-    color: #718096;
-    margin: 0;
-}
-
-.profile-page .form-label {
-    font-size: 0.9rem;
-    color: #2d3748;
-    margin-bottom: 0.5rem;
-}
-
-.profile-page .form-control {
-    font-size: 0.95rem;
-    padding: 0.75rem;
-    border-radius: 8px;
-    border: 1px solid #d2d6dc;
-    color: #2d3748;
-    transition: border-color 0.2s ease;
-    background: #f7fafc;
-}
-
-.profile-page .form-control:focus {
-    border-color: #4a90e2;
-    box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.1);
-    outline: none;
-}
-
-.profile-page .form-control:disabled {
-    background: #e2e8f0;
-    opacity: 0.8;
-}
-
-.profile-page .input-group {
-    position: relative;
-}
-
-.profile-page .input-icon {
-    position: absolute;
-    top: 50%;
-    left: 12px;
-    transform: translateY(-50%);
-    color: #718096;
-    font-size: 1rem;
-}
-
-.profile-page .form-control.has-icon {
-    padding-left: 2.5rem;
-}
-
-.profile-page .invalid-feedback {
-    font-size: 0.85rem;
-    color: #e53e3e;
-}
-
-.profile-page .btn-success {
-    background-color: #38a169;
-    border: none;
-    padding: 0.75rem;
-    font-size: 1rem;
-    border-radius: 8px;
-    transition: background-color 0.2s ease, transform 0.1s ease;
-}
-
-.profile-page .btn-success:hover {
-    background-color: #2f855a;
-    transform: translateY(-1px);
-}
-
-/* استایل‌های صفحه داشبورد */
-.dashboard-page body {
-    background: #f7fafc;
-    font-family: 'Vazirmatn', sans-serif;
-}
-
-.dashboard-page .container {
-    padding: 2rem 1rem;
-    max-width: 1200px;
-}
-
-.dashboard-page .card-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 1.5rem;
-}
-
-.dashboard-page .card {
-    border-radius: 15px;
-    border: none;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-    background: white;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-    padding: 1.5rem;
-}
-
-.dashboard-page .card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
-}
-
-.dashboard-page .card-title {
-    font-size: 1.2rem;
-    color: #2d3748;
-    margin-bottom: 0.5rem;
-}
-
-.dashboard-page .card-text {
-    font-size: 0.9rem;
-    color: #718096;
-    margin-bottom: 1rem;
-}
-
-.dashboard-page .card-btn {
-    background-color: #4a90e2;
-    color: white;
-    border: none;
-    padding: 0.5rem 1rem;
-    border-radius: 8px;
-    transition: background-color 0.2s ease;
-}
-
-.dashboard-page .card-btn:hover {
-    background-color: #357abd;
-}
-
-/* استایل‌های رسپانسیو */
-@media (max-width: 767.98px) {
-    .sidebar {
-        transform: translateX(100%);
-    }
-    .sidebar.show {
-        transform: translateX(0);
-    }
-    .navbar {
-        display: block !important;
-    }
-    .navbar-collapse {
-        display: none !important;
-    }
-    .hero-section h1 {
-        font-size: 2rem;
-    }
-    .hero-section p {
-        font-size: 1rem;
-    }
-    .services-section .card {
-        margin-bottom: 1rem;
-    }
-    .navbar-brand img {
-        width: 120px;
-    }
-}
-
-@media (max-width: 576px) {
-    .profile-page .container {
-        padding: 1rem;
-    }
-    .profile-page .card {
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-    }
-    .profile-page .card-body {
-        padding: 1.5rem;
-    }
-    .profile-page .form-control {
-        font-size: 0.9rem;
-        padding: 0.65rem;
-    }
-    .profile-page .btn-success {
-        font-size: 0.95rem;
-        padding: 0.65rem;
-    }
-    .dashboard-page .container {
-        padding: 1rem;
-    }
-    .dashboard-page .card {
-        padding: 1rem;
-    }
-    .dashboard-page .card-title {
-        font-size: 1.1rem;
-    }
-    .dashboard-page .card-text {
-        font-size: 0.85rem;
-    }
+    color: #007bff !important;
 }

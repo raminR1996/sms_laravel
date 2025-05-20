@@ -19,7 +19,7 @@ class Breadcrumb extends Component
 
         // تعریف سلسله‌مراتب مسیرها
         $breadcrumbHierarchy = [
-            'dashboard' => [
+            'admin.dashboard' => [
                 'title' => 'داشبورد',
                 'parent' => null, // والد ندارد
             ],
@@ -34,6 +34,18 @@ class Breadcrumb extends Component
             'admin.settings.edit' => [
                 'title' => 'ویرایش تنظیمات',
                 'parent' => 'admin.settings.index',
+            ],
+             'admin.users.index' => [
+                'title' => 'مدیریت کاربران',
+                'parent' => 'admin.dashboard',
+            ],
+              'admin.users.create' => [
+                'title' => 'ایجاد کاربر جدید',
+                'parent' => 'admin.users.index',
+            ],
+            'admin.users.edit' => [
+                'title' => 'ویرایش کاربر',
+                'parent' => 'admin.users.index',
             ],
         ];
 
