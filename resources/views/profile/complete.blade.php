@@ -1,5 +1,8 @@
 @extends('layouts.layout')
-
+@section('css')
+  <!-- فایل CSS -->
+    <link rel="stylesheet" href="{{ asset('css/profile-page.css') }}">
+@endsection
 @section('content')
     <div class="profile-page">
         <div class="container my-5">

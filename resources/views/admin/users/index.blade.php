@@ -1,7 +1,10 @@
 @extends('layouts.layout')
 
 @section('title', 'مدیریت کاربران')
-
+@section('css')
+  <!-- فایل CSS -->
+    <link rel="stylesheet" href="{{ asset('css/users-page.css') }}">
+@endsection
 @section('content')
     <div class="users-page">
             <!-- فراخوانی کامپوننت نان بری -->
@@ -53,15 +56,15 @@
                                             <td>{{ $user->email ?? 'نامشخص' }}</td>
                                             <td>{{ $user->phone_number }}</td>
                                             <td>{{ $user->role }}</td>
-                                         <td>
-    <a href="{{ route('admin.users.edit', $user->id) }}" class="btn btn-warning btn-sm">
-        <i class="fas fa-edit"></i> ویرایش
+       <td class="action-buttons">
+    <a href="{{ route('admin.users.edit', $user->id) }}" class="btn btn-icon btn-warning" title="ویرایش کاربر">
+        <i class="fas fa-edit"></i>
     </a>
     <form action="{{ route('admin.users.destroy', $user->id) }}" method="POST" style="display:inline;">
         @csrf
         @method('DELETE')
-        <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('آیا مطمئن هستید؟')">
-            <i class="fas fa-trash"></i> حذف
+        <button type="submit" class="btn btn-icon btn-danger" title="حذف کاربر" onclick="return confirm('آیا مطمئن هستید؟')">
+            <i class="fas fa-trash"></i>
         </button>
     </form>
 </td>

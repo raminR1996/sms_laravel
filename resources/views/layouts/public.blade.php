@@ -13,6 +13,7 @@
     <link href="https://cdn.jsdelivr.net/npm/vazirmatn@33.0.3/Vazirmatn-font-face.css" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
     <meta http-equiv="Cache-Control" content="public, max-age=31536000">
+    @yield('css') <!-- برای لود استایل‌های اضافی -->
 </head>
 <body>
     <!-- Navbar -->
@@ -71,6 +72,9 @@
         </div>
     </footer>
 
+    <!-- Scripts -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> <!-- اضافه کردن jQuery -->
     <script async defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    @yield('js') <!-- برای لود اسکریپت‌های اضافی -->
 </body>
 </html>

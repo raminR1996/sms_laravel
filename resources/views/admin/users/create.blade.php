@@ -57,7 +57,7 @@
                                 <select class="form-control @error('role') is-invalid @enderror" id="role" name="role" required>
                                     <option value="" disabled selected>انتخاب نقش</option>
                                     <option value="admin" {{ old('role') == 'admin' ? 'selected' : '' }}>ادمین</option>
-                                    <option value="employee" {{ old('role') == 'employee' ? 'selected' : '' }}>کارمند</option>
+                                    <option value="staff" {{ old('role') == 'staff' ? 'selected' : '' }}>کارمند</option>
                                     <option value="user" {{ old('role') == 'user' ? 'selected' : '' }}>کاربر</option>
                                 </select>
                                 @error('role')

@@ -1,7 +1,10 @@
 @extends('layouts.layout')
 
 @section('title', 'ویرایش کاربر')
-
+@section('css')
+  <!-- فایل CSS -->
+    <link rel="stylesheet" href="{{ asset('css/edit-user-page.css') }}">
+@endsection
 @section('content')
             <!-- فراخوانی کامپوننت نان بری -->
     <x-breadcrumb />
@@ -58,7 +61,7 @@
                                     <label for="role" class="form-label">نقش</label>
                                     <select class="form-control @error('role') is-invalid @enderror" id="role" name="role" required>
                                         <option value="admin" {{ old('role', $user->role) == 'admin' ? 'selected' : '' }}>ادمین</option>
-                                        <option value="employee" {{ old('role', $user->role) == 'employee' ? 'selected' : '' }}>کارمند</option>
+                                        <option value="staff" {{ old('role', $user->role) == 'staff' ? 'selected' : '' }}>کارمند</option>
                                         <option value="user" {{ old('role', $user->role) == 'user' ? 'selected' : '' }}>کاربر</option>
                                     </select>
                                     @error('role')

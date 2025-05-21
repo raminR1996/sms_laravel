@@ -1,34 +1,12 @@
 @extends('layouts.layout')
 
 @section('title', 'افزودن تنظیمات جدید')
-
+@section('css')
+  <!-- فایل CSS -->
+    <link rel="stylesheet" href="{{ asset('css/settings-page.css') }}">
+@endsection
 @section('content')
-<style>
-    .settings-card {
-        background: #ffffff;
-        border-radius: 1rem;
-        box-shadow: 0 0 15px rgba(0,0,0,0.05);
-        padding: 2rem;
-        margin-top: 2rem;
-    }
 
-    .settings-card h1 {
-        font-size: 1.8rem;
-        margin-bottom: 1.5rem;
-        font-weight: bold;
-        color: #343a40;
-    }
-
-    .form-label {
-        font-weight: 500;
-    }
-
-    .btn-primary {
-        width: 100%;
-        padding: 0.6rem;
-        font-weight: bold;
-    }
-</style>
 <!-- فراخوانی کامپوننت نان بری -->
 <x-breadcrumb />
 <div class="container">

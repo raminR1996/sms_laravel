@@ -2,6 +2,10 @@
 
 @section('title', 'تنظیمات سایت')
 
+@section('css')
+  <!-- فایل CSS -->
+    <link rel="stylesheet" href="{{ asset('css/settings-page.css') }}">
+@endsection
 @section('content')
 <!-- اضافه کردن Font Awesome برای آیکون‌ها -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -44,18 +48,18 @@
                                     <tr>
                                         <td>{{ $setting->key }}</td>
                                         <td>{{ Str::limit($setting->value, 50) }}</td>
-                                        <td>
-                                            <a href="{{ route('admin.settings.edit', $setting->id) }}" class="btn btn-warning btn-sm">
-                                                <i class="fas fa-edit"></i> ویرایش
-                                            </a>
-                                            <form action="{{ route('admin.settings.destroy', $setting->id) }}" method="POST" style="display:inline;">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('آیا مطمئن هستید؟')">
-                                                    <i class="fas fa-trash"></i> حذف
-                                                </button>
-                                            </form>
-                                        </td>
+                                     <td class="action-buttons">
+    <a href="{{ route('admin.settings.edit', $setting->id) }}" class="btn btn-icon btn-warning" title="ویرایش تنظیم">
+        <i class="fas fa-edit"></i>
+    </a>
+    <form action="{{ route('admin.settings.destroy', $setting->id) }}" method="POST" style="display:inline;">
+        @csrf
+        @method('DELETE')
+        <button type="submit" class="btn btn-icon btn-danger" title="حذف تنظیم" onclick="return confirm('آیا مطمئن هستید؟')">
+            <i class="fas fa-trash"></i>
+        </button>
+    </form>
+</td>
                                     </tr>
                                 @empty
                                     <tr>

@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\SettingsController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\ContactController;
 
 Route::middleware(['auth', 'role:admin'])
     ->prefix('admin')
@@ -25,6 +26,12 @@ Route::middleware(['auth', 'role:admin'])
         Route::get('/users/{user}/edit', [UserController::class, 'edit'])->name('users.edit');
         Route::put('/users/{user}', [UserController::class, 'update'])->name('users.update');
         Route::delete('/users/{user}', [UserController::class, 'destroy'])->name('users.destroy');
+
+   // روت‌های مدیریت کانکت ها
+        Route::get('/contacts', [ContactController::class, 'index'])->name('contacts.index');
+        Route::get('/contacts/{id}/edit', [ContactController::class, 'edit'])->name('contacts.edit');
+        Route::put('/contacts/{id}', [ContactController::class, 'update'])->name('contacts.update');
+        Route::delete('/contacts/{id}', [ContactController::class, 'destroy'])->name('contacts.destroy');
     });
 
     

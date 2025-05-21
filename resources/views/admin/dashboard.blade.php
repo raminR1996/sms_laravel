@@ -25,7 +25,7 @@
                 <div class="card">
                     <h5 class="card-title">مدیریت مخاطبین</h5>
                     <p class="card-text">افزودن، دسته‌بندی و ویرایش مخاطبین.</p>
-                    <a href="#" class="card-btn">مدیریت مخاطبین</a>
+                    <a href="{{ route('admin.contacts.index') }}" class="card-btn">مدیریت مخاطبین</a>
                 </div>
                 <div class="card">
                     <h5 class="card-title">تنظیمات</h5>

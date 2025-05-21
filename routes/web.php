@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\OtpController;
+use App\Http\Controllers\ContactController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\SettingsController;
 
@@ -10,11 +11,15 @@ Route::get('/', function () {
     return view('home');
 });
 
+Route::get('/contact-form', [ContactController::class, 'showForm'])->name('contact.form');
+Route::post('/contact-form', [ContactController::class, 'store'])->name('contact.store');
+
 Route::middleware('guest')->group(function () {
 Route::get('otp-login', [OtpController::class, 'showOtpForm'])->name('otp.login');
 Route::post('otp-send', [OtpController::class, 'sendOtp'])->name('otp.send');
 Route::get('otp-verify', [OtpController::class, 'showVerifyForm'])->name('otp.verify');
 Route::post('otp-verify', [OtpController::class, 'verifyOtp'])->name('otp.verify.post');
+
 });
 Route::middleware(['auth'])->group(function () {
     Route::get('/profile/complete', [ProfileController::class, 'showCompleteForm'])->name('profile.complete');

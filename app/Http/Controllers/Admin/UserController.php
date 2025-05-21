@@ -34,7 +34,7 @@ class UserController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email',
             'phone_number' => 'required|regex:/^09[0-9]{9}$/|unique:users,phone_number',
-            'role' => 'required|in:admin,employee,user',
+            'role' => 'required|in:admin,staff,user',
             'password' => 'required|min:8|confirmed',
         ]);
 

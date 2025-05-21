@@ -47,6 +47,15 @@ class Breadcrumb extends Component
                 'title' => 'ویرایش کاربر',
                 'parent' => 'admin.users.index',
             ],
+               'admin.contacts.index' => [
+                'title' => 'مدیریت مخاطبین',
+                'parent' => 'admin.dashboard',
+            ],
+            
+            'admin.contacts.edit' => [
+                'title' => 'ویرایش مخاطب',
+                'parent' => 'admin.contacts.index',
+            ],
         ];
 
         $items = [];
