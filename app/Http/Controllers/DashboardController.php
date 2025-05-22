@@ -25,10 +25,9 @@ class DashboardController extends Controller
         }
     }
 
-    public function test()
+    public function sendSms()
     {
         // دسترسی به تنظیمات 
-        $title = settings('site_title');
-        $allSettings = settings();
+       return 'salam';
     }
 }

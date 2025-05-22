@@ -15,44 +15,29 @@ Route::get('/contact-form', [ContactController::class, 'showForm'])->name('conta
 Route::post('/contact-form', [ContactController::class, 'store'])->name('contact.store');
 
 Route::middleware('guest')->group(function () {
-Route::get('otp-login', [OtpController::class, 'showOtpForm'])->name('otp.login');
-Route::post('otp-send', [OtpController::class, 'sendOtp'])->name('otp.send');
-Route::get('otp-verify', [OtpController::class, 'showVerifyForm'])->name('otp.verify');
-Route::post('otp-verify', [OtpController::class, 'verifyOtp'])->name('otp.verify.post');
-
+    Route::get('otp-login', [OtpController::class, 'showOtpForm'])->name('otp.login');
+    Route::post('otp-send', [OtpController::class, 'sendOtp'])->name('otp.send');
+    Route::get('otp-verify', [OtpController::class, 'showVerifyForm'])->name('otp.verify');
+    Route::post('otp-verify', [OtpController::class, 'verifyOtp'])->name('otp.verify.post');
 });
+
 Route::middleware(['auth'])->group(function () {
     Route::get('/profile/complete', [ProfileController::class, 'showCompleteForm'])->name('profile.complete');
     Route::post('/profile/complete', [ProfileController::class, 'storeCompleteForm'])->name('profile.complete.store');
+    Route::get('/documents/upload', [ProfileController::class, 'showDocumentsForm'])->name('documents.upload.form');
+    Route::post('/documents/upload', [ProfileController::class, 'uploadDocuments'])->name('documents.upload');
 });
 
-
-Route::middleware(['auth','verified','profile.complete'])->group(function () {
+Route::middleware(['auth', 'verified', 'profile.complete'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-});
-
-
-Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-    Route::get('/profile/complete', [ProfileController::class, 'showCompleteForm'])->name('profile.complete');
-    Route::post('/profile/complete', [ProfileController::class, 'storeCompleteForm'])->name('profile.complete.store');
+    Route::get('/send-sms', [DashboardController::class, 'sendSms'])->name('send.sms');
+    Route::middleware('role:staff,admin')->group(function () {
+        Route::get('/contacts', [DashboardController::class, 'contacts'])->name('contacts.index');
+    });
 });
 
-// // تنظیمات (فقط برای مدیر)
-//     Route::middleware('role:admin')->group(function () {
-//     Route::get('/settings', [SettingsController::class, 'index'])->name('settings.index');
-//     Route::post('/settings', [SettingsController::class, 'update'])->name('settings.update');
-//         });
-
-              // ارسال پیامک (برای همه نقش‌ها)
-        Route::get('/send-sms', [DashboardController::class, 'sendSms'])->name('send.sms');
-        // مدیریت مخاطبین (برای کارمند و مدیر)
-        Route::middleware('role:staff,admin')->group(function () {
-            Route::get('/contacts', [DashboardController::class, 'contacts'])->name('contacts.index');
-        });
-
 require __DIR__.'/auth.php';
-//  روت‌های ادمین
 require __DIR__.'/admin.php';

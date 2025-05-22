@@ -23,6 +23,8 @@ class User extends Authenticatable
         'password',
         'phone_number',
         'role',
+         'profile_completed',
+        'documents_verified',
     ];
 
     /**
@@ -46,6 +48,11 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+        public function documents()
+    {
+        return $this->hasOne(Document::class);
     }
 
        // متدهای کمکی برای چک کردن نقش

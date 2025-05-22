@@ -12,12 +12,12 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('contacts', function (Blueprint $table) {
-             $table->id();
+            $table->id();
             $table->foreignId('village_id')->constrained()->onDelete('cascade'); // ارتباط با جدول روستاها
-            $table->string('mobile_number'); // شماره موبایل
+            $table->string('mobile_number')->unique(); // اضافه کردن unique برای جلوگیری از شماره تکراری
             $table->string('full_name')->nullable(); // نام کامل (اختیاری)
             $table->date('birth_date')->nullable(); // تاریخ تولد (اختیاری)
-            $table->enum('gender', ['male', 'female']); // جنسیت (اجباری)
+            $table->enum('gender', ['male', 'female'])->default('male'); // جنسیت (اختیاری)
             $table->timestamps();
         });
     }

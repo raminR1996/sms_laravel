@@ -56,6 +56,11 @@ class Breadcrumb extends Component
                 'title' => 'ویرایش مخاطب',
                 'parent' => 'admin.contacts.index',
             ],
+                'admin.verify.documents' => [
+                'title' => 'مدیریت مدارک',
+                'parent' => 'admin.dashboard',
+            ],
+            
         ];
 
         $items = [];

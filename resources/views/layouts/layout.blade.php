@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title', 'پنل مدیریت')</title>
-    
 
     <!-- Bootstrap 5 RTL CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.rtl.min.css" rel="stylesheet">
@@ -14,8 +13,7 @@
 
     <!-- Vazirmatn Font -->
     <link href="https://cdn.jsdelivr.net/npm/vazirmatn@33.0.3/Vazirmatn-font-face.css" rel="stylesheet">
-    <!-- Font Awesome برای آیکون‌ها -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
     <!-- فایل CSS -->
     <link rel="stylesheet" href="{{ asset('css/panel.css') }}">
     @yield('css')
@@ -36,13 +34,18 @@
         </div>
     </div>
 
-    <!-- Bootstrap 5 JS -->
+    <!-- Bootstrap 5 JS Bundle -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- اسکریپت‌های سفارشی -->
     <script>
-        // نمایش/مخفی کردن سایدبار تو موبایل
-        document.getElementById('navbarToggler').addEventListener('click', function () {
-            document.getElementById('sidebar').classList.toggle('show');
+        document.addEventListener('DOMContentLoaded', function () {
+            // نمایش/مخفی کردن سایدبار تو موبایل
+            document.getElementById('navbarToggler').addEventListener('click', function () {
+                document.getElementById('sidebar').classList.toggle('show');
+            });
         });
     </script>
+    @yield('js')
 </body>
 </html>

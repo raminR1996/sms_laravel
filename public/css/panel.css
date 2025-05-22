@@ -84,6 +84,60 @@ body {
     text-decoration: none;
 }
 
+/* استایل زیرمنوی کشویی */
+.sidebar-submenu {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.sidebar-submenu summary {
+    color: #ffffff;
+    padding: 0.75rem 1rem;
+    display: flex;
+    align-items: center;
+    border-radius: 5px;
+    margin-bottom: 0.25rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.sidebar-submenu summary:hover {
+    background-color: #34495e;
+}
+
+.sidebar-submenu[open] summary {
+    background-color: #34495e;
+}
+
+.submenu-items {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    background-color: #34495e;
+    border-radius: 5px;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+}
+
+.submenu-items .submenu-link {
+    color: #d1d8e0;
+    padding: 0.5rem 1rem 0.5rem 2rem; /* فاصله بیشتر از سمت چپ برای زیرمنو */
+    display: flex;
+    align-items: center;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.submenu-items .submenu-link i {
+    margin-left: 0.5rem;
+}
+
+.submenu-items .submenu-link:hover {
+    background-color: #405c71;
+    color: #ffffff;
+}
+
 /* محتوای اصلی */
 .content {
     margin-top: 56px;
@@ -335,12 +389,12 @@ body {
 }
 
 @media (min-width: 992px) {
+    /* حذف استایل‌های قدیمی dropdown */
     .navbar-expand-lg .navbar-nav .dropdown-menu {
-        position: absolute;
-        margin-top: 13px;
-        margin-right: -83px !important;
+        display: none; /* غیرفعال کردن پاپ‌آپ */
     }
 }
+
 .settings-card {
     border-radius: 15px;
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);

@@ -11,9 +11,11 @@ class Contact extends Model
     protected $casts = [
         'birth_date' => 'date',
     ];
+    
 
     public function village()
     {
         return $this->belongsTo(Village::class);
     }
+    
 }
