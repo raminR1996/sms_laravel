@@ -268,18 +268,103 @@ body {
     }
 }
 
+
 /* استایل‌های فوتر */
-footer {
-    background-color: #343a40;
-    color: white;
+.footer {
+    background-color: #f0f4f8; /* رنگ جدید: آبی روشن ملایم */
+    box-shadow: 0 -2px 6px rgba(0, 0, 0, 0.05); /* سایه نرم‌تر */
+    color: #333;
+    padding: 2rem 0;
 }
 
-footer a {
+.footer-brand img {
+    transition: transform 0.3s ease;
+}
+
+.footer-brand img:hover {
+    transform: scale(1.05);
+}
+
+.footer-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #2d3748;
+    margin-bottom: 1.5rem;
+}
+.footer-links{
+    padding: 0 !important;
+}
+.footer-links li {
+    margin-bottom: 1rem;
+}
+
+.footer-links a {
+    color: #4a5568;
     text-decoration: none;
-    color: #fff;
+    display: flex;
+    align-items: center;
     transition: color 0.3s ease;
 }
 
-footer a:hover {
-    color: #007bff !important;
+.footer-links a:hover {
+    color: #007bff;
+}
+
+.footer-links i {
+    margin-left: 0.5rem;
+}
+.footer-contact{
+    padding: 0 !important;
+}
+.footer-contact li {
+    margin-bottom: 1rem;
+    color: #4a5568;
+    display: flex;
+    align-items: center;
+}
+
+.footer-contact a {
+    color: #4a5568;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.footer-contact a:hover {
+    color: #007bff;
+}
+
+.footer-contact i {
+    margin-left: 0.5rem;
+}
+
+.footer hr {
+    border-color: rgba(0, 0, 0, 0.1);
+    margin: 2rem 0;
+}
+
+.footer .text-muted {
+    font-size: 0.9rem;
+    color: #718096;
+}
+
+/* رسپانسیو فوتر */
+@media (max-width: 767.98px) {
+    .footer .text-center {
+        text-align: center !important;
+    }
+    .footer-brand {
+        margin: 0 auto 2rem;
+    }
+    .footer-title {
+        margin-top: 2rem;
+    }
+    .footer-links {
+        margin: 0 auto;
+        max-width: 200px;
+        padding-right: 60px !important;
+    }
+     .footer-contact {
+        margin: 0 auto;
+        max-width: 200px;
+    }
 }

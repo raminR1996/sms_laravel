@@ -45,32 +45,48 @@
         @yield('content')
     </div>
 
-    <!-- Footer -->
-    <footer class="bg-dark text-white py-4">
-        <div class="container">
-            <div class="row g-4">
-                <div class="col-12 col-md-4 text-center text-md-right">
-                    <h5>{{ settings('site_title', 'پیام فردا') }}</h5>
-                    <p>ارائه‌دهنده خدمات پیامکی با کیفیت و مطمئن.</p>
-                </div>
-                <div class="col-12 col-md-4 text-center text-md-right">
-                    <h5>لینک‌های مفید</h5>
-                    <ul class="list-unstyled">
-                        <li><a href="{{ url('/about') }}" class="text-white">درباره ما</a></li>
-                        <li><a href="{{ url('/services') }}" class="text-white">خدمات</a></li>
-                        <li><a href="{{ url('/contact') }}" class="text-white">تماس با ما</a></li>
-                    </ul>
-                </div>
-                <div class="col-12 col-md-4 text-center text-md-right">
-                    <h5>تماس با ما</h5>
-                    <p>ایمیل: info@payamfarda.ir<br>تلفن: 021-12345678<br>آدرس: تهران، خیابان اصلی، پلاک ۱۲۳</p>
-                    <a href="{{ url('/contact') }}" class="btn btn-outline-light mt-3">تماس بگیرید</a>
-                </div>
+<!-- Footer -->
+<footer class="footer py-5">
+    <div class="container">
+        <div class="row g-4 justify-content-center">
+            <!-- لوگو و توضیحات -->
+            <div class="col-12 col-md-4 text-center text-md-end">
+                <a href="{{ url('/') }}" class="footer-brand d-block mb-3">
+                    <img src="{{ asset('images/logo.png') }}" alt="پیام فردا" width="120" loading="lazy">
+                </a>
+                <p class="text-muted">ارائه‌دهنده خدمات پیامکی با کیفیت و مطمئن.</p>
             </div>
-            <hr class="bg-white my-4">
-            <p class="text-center mb-0">© {{ now()->year }} {{ settings('site_title', 'پیام فردا') }}. تمامی حقوق محفوظ است.</p>
+
+            <!-- لینک‌های مفید -->
+            <div class="col-12 col-md-4 text-center text-md-end">
+                <h5 class="footer-title">لینک‌های مفید</h5>
+                <ul class="list-unstyled footer-links">
+                    <li><a href="{{ url('/about') }}"><i class="fas fa-info-circle"></i> درباره ما</a></li>
+                    <li><a href="{{ url('/services') }}"><i class="fas fa-concierge-bell"></i> خدمات</a></li>
+                    <li><a href="{{ url('/contact') }}"><i class="fas fa-envelope"></i> تماس با ما</a></li>
+                </ul>
+            </div>
+
+            <!-- تماس با ما -->
+            <div class="col-12 col-md-4 text-center text-md-end">
+                <h5 class="footer-title">تماس با ما</h5>
+                <ul class="list-unstyled footer-contact">
+                    <li><i class="fas fa-envelope"></i> ایمیل: <a href="mailto:info@payamfarda.ir">info@payamfarda.ir</a></li>
+                    <li><i class="fas fa-phone-alt"></i> تلفن: 021-12345678</li>
+                    <li><i class="fas fa-map-marker-alt"></i> آدرس: تهران، خیابان اصلی، پلاک ۱۲۳</li>
+                </ul>
+                <a href="{{ url('/contact') }}" class="btn btn-primary mt-3">تماس بگیرید</a>
+            </div>
         </div>
-    </footer>
+
+        <hr class="my-4">
+
+        <!-- کپی‌رایت -->
+        <div class="text-center">
+            <p class="mb-0 text-muted">© {{ now()->year }} {{ settings('site_title', 'پیام فردا') }}. تمامی حقوق محفوظ است.</p>
+        </div>
+    </div>
+</footer>
 
     <!-- Scripts -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> <!-- اضافه کردن jQuery -->
