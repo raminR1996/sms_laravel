@@ -1,35 +1,22 @@
 <div class="container-fluid">
-     <a class="navbar-brand" href="{{ url('/') }}">
-                <img src="{{ asset('images/logo.png') }}" alt="پیام فردا" width="150" loading="lazy">
-                 </a>
-    <button class="navbar-toggler" type="button" id="navbarToggler" aria-label="Toggle navigation">
+    <a class="navbar-brand" href="{{ url('/') }}">
+        <img src="{{ asset('images/logo.png') }}" alt="پیام فردا" width="150" loading="lazy">
+    </a>
+
+    <!-- دکمه برای باز و بسته کردن سایدبار در موبایل -->
+    <button class="navbar-toggler d-lg-none" type="button" id="navbarToggler" aria-label="Toggle sidebar">
         <span class="navbar-toggler-icon"></span>
     </button>
-     
+
     <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ms-auto">
-           
-            <li class="nav-item dropdown">
-               
-                <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    <i class="fas fa-user"></i>
-                </a>
-                <ul class="dropdown-menu dropdown-menu-start" aria-labelledby="userDropdown">
-                    <li><a class="dropdown-item" href="#">پروفایل</a></li>
-                    <li><a class="dropdown-item" href="#">
-<form method="POST" action="{{ route('logout') }}">
-                                @csrf
-                                <x-dropdown-link :href="route('logout')"
-                                        onclick="event.preventDefault();
-                                                    this.closest('form').submit();">
-                                    خروج
-                                </x-dropdown-link>
-                            </form>
-                    </a></li>
+           <form method="POST" action="{{ route('logout') }}">
+    @csrf
+    <button type="submit" class="btn btn-danger">
+        <i class="fas fa-sign-out-alt"></i> خروج
+    </button>
+</form>
 
-                     
-                </ul>
-            </li>
         </ul>
     </div>
 </div>

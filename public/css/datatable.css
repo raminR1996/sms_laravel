@@ -1,0 +1,89 @@
+        table.dataTable {
+    direction: rtl !important;
+    text-align: right !important;
+}
+table.dataTable thead th {
+    text-align: right !important;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button {
+    background-color: #007bff;
+    color: white !important;
+    border-radius: 4px;
+    padding: 5px 10px;
+    margin: 0 2px;
+    cursor: pointer;
+    border: none;
+    transition: background-color 0.3s ease;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+    background-color: #0056b3;
+    color: white !important;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button.current {
+    background-color: #004085;
+    color: white !important;
+}
+   /* فاصله دادن بین جستجو و جدول */
+    .dataTables_filter {
+        margin-bottom: 1rem;
+    }
+    .dataTables_filter input {
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    padding: 6px 10px;
+    font-size: 14px;
+    background-color: #fff;
+    width: 200px;
+    transition: all 0.3s ease;
+}
+
+.dataTables_filter input:focus {
+    border-color: #0d6efd;
+    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+    outline: none;
+}
+
+        #loading-spinner {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 250px;
+        }
+
+        #data-table-container {
+            display: none;
+        }
+
+        /* زیباسازی قسمت جستجو */
+        div.dataTables_filter {
+            margin-bottom: 15px;
+            text-align: right;
+        }
+
+        /* اسکرول افقی */
+        .dataTables_wrapper {
+            overflow-x: auto;
+        }
+
+        /* زیباسازی دکمه‌های paginate */
+        .dataTables_paginate .paginate_button {
+            padding: 6px 12px;
+            margin: 2px;
+            border-radius: 5px;
+            background-color: #f1f1f1;
+            border: 1px solid #ddd;
+        }
+
+        .dataTables_paginate .paginate_button.current {
+            background-color: #007bff;
+            color: white !important;
+            border: 1px solid #007bff;
+        }
+
+        /* راست‌چین کردن جدول */
+        table.dataTable thead th {
+            text-align: right;
+        }

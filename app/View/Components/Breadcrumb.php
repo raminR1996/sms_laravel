@@ -51,11 +51,15 @@ class Breadcrumb extends Component
                 'title' => 'مدیریت مخاطبین',
                 'parent' => 'admin.dashboard',
             ],
-            
+            'admin.contacts.village' => [
+                'title' => 'جزئیات روستا',
+                'parent' => 'admin.contacts.index',
+            ],
             'admin.contacts.edit' => [
                 'title' => 'ویرایش مخاطب',
                 'parent' => 'admin.contacts.index',
             ],
+             
                 'admin.verify.documents' => [
                 'title' => 'مدیریت مدارک',
                 'parent' => 'admin.dashboard',

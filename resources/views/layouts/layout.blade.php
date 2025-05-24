@@ -39,12 +39,18 @@
 
     <!-- اسکریپت‌های سفارشی -->
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            // نمایش/مخفی کردن سایدبار تو موبایل
-            document.getElementById('navbarToggler').addEventListener('click', function () {
-                document.getElementById('sidebar').classList.toggle('show');
-            });
+    document.addEventListener('DOMContentLoaded', function () {
+    const toggler = document.getElementById('navbarToggler');
+    if (toggler) {
+        toggler.addEventListener('click', function () {
+            const sidebar = document.getElementById('sidebar');
+            if (sidebar) {
+                sidebar.classList.toggle('show');
+            }
         });
+    }
+});
+
     </script>
     @yield('js')
 </body>

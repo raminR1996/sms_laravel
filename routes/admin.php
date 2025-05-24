@@ -28,8 +28,14 @@ Route::middleware(['auth', 'role:admin'])
         Route::put('/users/{user}', [UserController::class, 'update'])->name('users.update');
         Route::delete('/users/{user}', [UserController::class, 'destroy'])->name('users.destroy');
 
-   // روت‌های مدیریت کانکت ها
+   // روت‌های مدیریت کانتکت‌ها
         Route::get('/contacts', [ContactController::class, 'index'])->name('contacts.index');
+        Route::get('/contacts/data', [ContactController::class, 'getData'])->name('contacts.data');
+
+        Route::get('/contacts/village/{village_id}', [ContactController::class, 'showVillageContacts'])->name('contacts.village');
+        Route::get('/contacts/village/{id}/data', [ContactController::class, 'villageContactsData'])->name('contacts.village.data');
+
+
         Route::get('/contacts/{id}/edit', [ContactController::class, 'edit'])->name('contacts.edit');
         Route::put('/contacts/{id}', [ContactController::class, 'update'])->name('contacts.update');
         Route::delete('/contacts/{id}', [ContactController::class, 'destroy'])->name('contacts.destroy');

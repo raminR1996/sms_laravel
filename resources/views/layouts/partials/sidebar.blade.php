@@ -45,5 +45,15 @@
     <li class="nav-item">
         <a class="nav-link" href="/orders"><i class="fas fa-shopping-cart me-2"></i> سفارش‌ها</a>
     </li>
+      <!-- گزینه خروج فقط در موبایل -->
+   <li class="nav-item d-block d-lg-none">
+    <form method="POST" action="{{ route('logout') }}" id="mobileLogoutForm">
+        @csrf
+        <a href="#" class="nav-link" onclick="event.preventDefault(); document.getElementById('mobileLogoutForm').submit();">
+            <i class="fas fa-sign-out-alt me-2"></i> خروج
+        </a>
+    </form>
+</li>
+
 </ul>
 
