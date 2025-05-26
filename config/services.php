@@ -34,5 +34,8 @@ return [
             'channel' => env('SLACK_BOT_USER_DEFAULT_CHANNEL'),
         ],
     ],
-
+'zarinpal' => [
+    'merchant_id' => env('ZARINPAL_MERCHANT_ID', '72ff488f-9c4d-481b-a9f7-ff40e51f42f9'),
+    'callback_url' => env('ZARINPAL_CALLBACK_URL', 'http://127.0.0.1:8000/payment/callback'),
+],
 ];

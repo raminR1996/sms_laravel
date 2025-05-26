@@ -64,7 +64,30 @@ class Breadcrumb extends Component
                 'title' => 'مدیریت مدارک',
                 'parent' => 'admin.dashboard',
             ],
-            
+              'admin.lines.index' => [
+                'title' => 'مدیریت خطوط ',
+                'parent' => 'admin.dashboard',
+            ],
+             'admin.lines.create' => [
+                'title' => 'افزودن خط جدید',
+                'parent' => 'admin.lines.index',
+            ],
+              'admin.lines.edit' => [
+                'title' => 'ویرایش خط',
+                'parent' => 'admin.lines.index',
+            ],
+             'admin.packages.index' => [
+                'title' => 'مدیریت بسته ها ',
+                'parent' => 'admin.dashboard',
+            ],
+            'admin.packages.create' => [
+                'title' => 'افزودن بسته جدید',
+                'parent' => 'admin.packages.index',
+            ],
+            'admin.packages.edit' => [
+                'title' => 'ویرایش بسته ',
+                'parent' => 'admin.packages.index',
+            ],
         ];
 
         $items = [];

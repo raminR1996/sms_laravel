@@ -1,4 +1,3 @@
-```html
 @extends('layouts.layout')
 
 @section('title', $siteTitle . ' - داشبورد کاربر')
@@ -13,9 +12,19 @@
             <h1 class="text-center mb-4">{{ $siteTitle }} - داشبورد کاربر</h1>
             <div class="card-grid">
                 <div class="card">
-                    <h5 class="card-title">ارسال پیامک</h5>
-                    <p class="card-text">ارسال پیامک تکی یا انبوه به مخاطبین.</p>
-                    <a href="{{ route('send.sms') }}" class="card-btn">شروع کنید</a>
+    <h5 class="card-title">شارژ پنل</h5>
+    <p class="card-text">خرید بسته‌های پیامکی برای ارسال پیامک.</p>
+    <a href="{{ route('charge.index') }}" class="card-btn">شارژ پنل</a>
+</div>
+                <div class="card">
+                    <h5 class="card-title">ارسال پیامک تکی</h5>
+                    <p class="card-text">ارسال پیامک به یک شماره خاص.</p>
+                    <a href="#" class="card-btn">شروع کنید</a>
+                </div>
+                <div class="card">
+                    <h5 class="card-title">ارسال پیامک گروهی</h5>
+                    <p class="card-text">ارسال پیامک به چندین مخاطب به صورت همزمان.</p>
+                    <a href="#" class="card-btn">شروع کنید</a>
                 </div>
                 @if (auth()->user()->profile_completed && !auth()->user()->documents && !auth()->user()->documents_verified)
                     <div class="card">
@@ -33,4 +42,3 @@
         </div>
     </div>
 @endsection
-```

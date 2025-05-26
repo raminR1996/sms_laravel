@@ -1,0 +1,43 @@
+@extends('layouts.layout')
+
+@section('title', '  ویرایش بسته شارژ')
+
+@section('content')
+    <div class="dashboard-page">
+                    <!-- فراخوانی کامپوننت نان بری -->
+    <x-breadcrumb />
+        <div class="container">
+            <h1 class="text-center mb-4">ویرایش بسته شارژ</h1>
+            <div class="card">
+                <div class="card-body">
+                    <form action="{{ route('admin.packages.update', $package) }}" method="POST">
+                        @csrf
+                        @method('PUT')
+                        <div class="form-group mb-3">
+                            <label for="sms_count">تعداد پیامک</label>
+                            <select name="sms_count" id="sms_count" class="form-control" required>
+                                <option value="100" {{ $package->sms_count == 100 ? 'selected' : '' }}>100 پیامک</option>
+                                <option value="500" {{ $package->sms_count == 500 ? 'selected' : '' }}>500 پیامک</option>
+                                <option value="1000" {{ $package->sms_count == 1000 ? 'selected' : '' }}>1000 پیامک</option>
+                                <option value="5000" {{ $package->sms_count == 5000 ? 'selected' : '' }}>5000 پیامک</option>
+                                <option value="10000" {{ $package->sms_count == 10000 ? 'selected' : '' }}>10000 پیامک</option>
+                                <option value="50000" {{ $package->sms_count == 50000 ? 'selected' : '' }}>50000 پیامک</option>
+                            </select>
+                            @error('sms_count')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="is_active">وضعیت</label>
+                            <select name="is_active" id="is_active" class="form-control">
+                                <option value="1" {{ $package->is_active ? 'selected' : '' }}>فعال</option>
+                                <option value="0" {{ !$package->is_active ? 'selected' : '' }}>غیرفعال</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary">به‌روزرسانی بسته</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+@endsection

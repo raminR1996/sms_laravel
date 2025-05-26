@@ -6,6 +6,8 @@ use App\Http\Controllers\Admin\SettingsController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\ContactController;
 use App\Http\Controllers\Admin\DocumentController;
+use App\Http\Controllers\Admin\LineController;
+use App\Http\Controllers\Admin\PackageController;
 
 Route::middleware(['auth', 'role:admin'])
     ->prefix('admin')
@@ -39,10 +41,28 @@ Route::middleware(['auth', 'role:admin'])
         Route::get('/contacts/{id}/edit', [ContactController::class, 'edit'])->name('contacts.edit');
         Route::put('/contacts/{id}', [ContactController::class, 'update'])->name('contacts.update');
         Route::delete('/contacts/{id}', [ContactController::class, 'destroy'])->name('contacts.destroy');
-   // روت‌های مدیریت مدارک ها
-    Route::get('/verify-documents', [DocumentController::class, 'verifyDocuments'])->name('verify.documents');
-    Route::post('/documents/{document}/approve', [DocumentController::class, 'approveDocument'])->name('documents.approve');
-    Route::post('/documents/{document}/reject', [DocumentController::class, 'rejectDocument'])->name('documents.reject');
+        // روت‌های مدیریت مدارک ها
+        Route::get('/verify-documents', [DocumentController::class, 'verifyDocuments'])->name('verify.documents');
+        Route::post('/documents/{document}/approve', [DocumentController::class, 'approveDocument'])->name('documents.approve');
+        Route::post('/documents/{document}/reject', [DocumentController::class, 'rejectDocument'])->name('documents.reject');
+
+        //خطوط
+        Route::get('/lines', [LineController::class, 'index'])->name('lines.index');
+        Route::get('/lines/create', [LineController::class, 'create'])->name('lines.create');
+        Route::post('/lines', [LineController::class, 'store'])->name('lines.store');
+        Route::get('/lines/{line}/edit', [LineController::class, 'edit'])->name('lines.edit');
+        Route::put('/lines/{line}', [LineController::class, 'update'])->name('lines.update');
+        Route::delete('/lines/{line}', [LineController::class, 'destroy'])->name('lines.destroy');
+        Route::post('/lines/{line}/toggle', [LineController::class, 'toggleStatus'])->name('lines.toggle');
+
+        // روت‌های مدیریت بسته‌ها
+Route::get('/packages', [PackageController::class, 'index'])->name('packages.index');
+Route::get('/packages/create', [PackageController::class, 'create'])->name('packages.create');
+Route::post('/packages', [PackageController::class, 'store'])->name('packages.store');
+Route::get('/packages/{package}/edit', [PackageController::class, 'edit'])->name('packages.edit');
+Route::put('/packages/{package}', [PackageController::class, 'update'])->name('packages.update');
+Route::delete('/packages/{package}', [PackageController::class, 'destroy'])->name('packages.destroy');
+Route::post('/packages/{package}/toggle', [PackageController::class, 'toggleStatus'])->name('packages.toggle');
     });
 
     

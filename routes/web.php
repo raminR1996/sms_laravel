@@ -5,11 +5,17 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\OtpController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\SettingsController;
 
 Route::get('/', function () {
     return view('home');
 });
+
+// مسیر callback بدون Middleware
+Route::get('/payment/callback', [PaymentController::class, 'callback'])
+    ->name('payment.callback')
+    ->withoutMiddleware(['auth', 'verified', 'EnsureProfileIsComplete']);
 
 Route::get('/contact-form', [ContactController::class, 'showForm'])->name('contact.form');
 Route::post('/contact-form', [ContactController::class, 'store'])->name('contact.store');
@@ -33,6 +39,15 @@ Route::middleware(['auth', 'verified', 'profile.complete'])->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+
+    // روت‌های شارژ پنل
+    Route::get('/charge', [PaymentController::class, 'index'])->name('charge.index');
+    Route::post('/payment/purchase', [PaymentController::class, 'purchase'])->name('payment.purchase');
+
+    // Route::get('/payment/callback', [PaymentController::class, 'callback'])->name('payment.callback');
+
+
     Route::get('/send-sms', [DashboardController::class, 'sendSms'])->name('send.sms');
     Route::middleware('role:staff,admin')->group(function () {
         Route::get('/contacts', [DashboardController::class, 'contacts'])->name('contacts.index');

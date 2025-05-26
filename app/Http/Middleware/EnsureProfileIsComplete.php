@@ -11,13 +11,26 @@ class EnsureProfileIsComplete
 {
     public function handle(Request $request, Closure $next): Response
     {
-        $user = Auth::user();
+        // مسیرهایی که از بررسی مستثنی هستند
+        $exemptRoutes = [
+            'payment.callback', // مسیر callback زرین‌پال
+        ];
 
-        if (!$user) {
-            return redirect()->route('login');
+        $currentRoute = $request->route() ? $request->route()->getName() : null;
+
+        // اگر مسیر جزو مستثنی‌ها باشد، ادامه بده
+        if (in_array($currentRoute, $exemptRoutes)) {
+            return $next($request);
         }
 
-        // روت‌های مجاز برای کاربرانی که پروفایل یا مدارکشون کامل نیست
+        $user = Auth::user();
+
+        // اگر کاربر وارد نشده باشد، به صفحه ورود هدایت کن
+        if (!$user) {
+            return redirect()->route('login')->with('error', 'لطفاً ابتدا وارد شوید.');
+        }
+
+        // روت‌های مجاز برای کاربرانی که پروفایل یا مدارکشان کامل نیست
         $allowedRoutes = [
             'dashboard',
             'profile.edit',
@@ -30,35 +43,32 @@ class EnsureProfileIsComplete
             'logout',
         ];
 
-        $currentRoute = $request->route()->getName();
-
-        // اگر کاربر ادمین یا کارمند است، محدودیت اعمال نمی‌شه
+        // اگر کاربر ادمین یا کارمند است، محدودیت اعمال نشود
         if ($user->isAdmin() || $user->isStaff()) {
             return $next($request);
         }
 
-        // اگر پروفایل تکمیل نشده، به صفحه تکمیل پروفایل هدایت کن
+        // اگر پروفایل تکمیل نشده باشد
         if (!$user->profile_completed) {
             if (!in_array($currentRoute, $allowedRoutes)) {
                 return redirect()->route('profile.complete')
-                    ->with('error', 'لطفاً ابتدا پروفایل خود را تکمیل کنید.');
+                    ->with('error', 'لطفاً ابتدا پروفایل خود را تکádioفیل کنید.');
             }
         }
 
-        // اگر مدارک تأیید نشده‌اند، دسترسی به صفحات غیرمجاز محدود بشه
+        // اگر مدارک تأیید نشده باشند
         if ($user->profile_completed && !$user->documents_verified) {
             if (!in_array($currentRoute, $allowedRoutes)) {
-                return redirect()->back()
-                    ->with('error', 'مدارک شما هنوز توسط مدیریت تأیید نشده است.');
+                return redirect()->route('documents.upload.form')
+                    ->with('error', 'مدارک شما هنوز توسط مدیریت تأیید نشده است. لطفاً مدارک را آپلود کنید.');
             }
         }
 
-        // اگر مدارک هنوز آپلود نشده‌اند، اجازه دسترسی به صفحه آپلود مدارک بده
-        if ($user->profile_completed && !$user->documents && in_array($currentRoute, ['documents.upload.form', 'documents.upload'])) {
+        // اگر مدارک هنوز آپلود نشده باشند، اجازه دسترسی به صفحه آپلود مدارک بده
+        if ($user->profile_completed && !$user->documents()->exists() && in_array($currentRoute, ['documents.upload.form', 'documents.upload'])) {
             return $next($request);
         }
 
-        // اگر همه چیز درست باشه، درخواست رو ادامه بده
         return $next($request);
     }
 }

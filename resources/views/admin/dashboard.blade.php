@@ -7,16 +7,16 @@
         <div class="container">
             <h1 class="text-center mb-4">{{ $siteTitle }} - داشبورد مدیریت</h1>
             <div class="card-grid">
-                <div class="card">
-                    <h5 class="card-title">ارسال پیامک</h5>
-                    <p class="card-text">ارسال پیامک تکی یا انبوه به مخاطبین.</p>
-                    <a href="#" class="card-btn">شروع کنید</a>
+                 <div class="card">
+                    <h5 class="card-title">مدیریت خطوط</h5>
+                    <p class="card-text">مدیریت خطوط پیامکی اپراتورها .</p>
+                    <a href="{{ route('admin.lines.index') }}" class="card-btn">مدیریت خطوط</a>
                 </div>
                 <div class="card">
-                    <h5 class="card-title">مدیریت کمپین‌ها</h5>
-                    <p class="card-text">ایجاد، برنامه‌ریزی و مشاهده کمپین‌ها.</p>
-                    <a href="#" class="card-btn">مشاهده کمپین‌ها</a>
-                </div>
+    <h5 class="card-title">مدیریت بسته‌های شارژ</h5>
+    <p class="card-text">ایجاد و مدیریت بسته‌های شارژ پیامک.</p>
+    <a href="{{ route('admin.packages.index') }}" class="card-btn">مدیریت بسته‌ها</a>
+</div>
                 <div class="card">
                     <h5 class="card-title">گزارش‌ها</h5>
                     <p class="card-text">تحلیل ارسال‌ها، تحویل و نرخ کلیک‌ها.</p>
