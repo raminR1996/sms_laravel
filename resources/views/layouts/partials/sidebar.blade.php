@@ -62,6 +62,12 @@
             <a class="nav-link" href="{{ route('profile.edit') }}"><i class="fas fa-user me-2"></i> پروفایل من</a>
         </li>
         <li class="nav-item">
+            <a class="nav-link" href="{{ route('send.sms.single') }}"><i class="fas fa-sms me-2"></i> ارسال پیامک</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{{ route('reports.index') }}"><i class="fas fa-file-alt me-2"></i> گزارشات</a>
+        </li>
+        <li class="nav-item">
             <a class="nav-link" href="{{ route('charge.index') }}"><i class="fas fa-wallet me-2"></i> شارژ پنل</a>
         </li>
         <li class="nav-item">

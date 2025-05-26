@@ -6,7 +6,9 @@ use App\Http\Controllers\Auth\OtpController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\ReportController;
 use App\Http\Controllers\SettingsController;
+use App\Http\Controllers\SmsController;
 
 Route::get('/', function () {
     return view('home');
@@ -47,7 +49,13 @@ Route::middleware(['auth', 'verified', 'profile.complete'])->group(function () {
 
     // Route::get('/payment/callback', [PaymentController::class, 'callback'])->name('payment.callback');
 
+// روت‌های ارسال پیامک
+    Route::get('/send-sms/single', [SmsController::class, 'sendSingleSms'])->name('send.sms.single');
+    Route::post('/send-sms/single', [SmsController::class, 'storeSingleSms'])->name('send.sms.single.store');
 
+    Route::get('/reports', [ReportController::class, 'index'])->name('reports.index');
+    Route::get('/reports/data', [ReportController::class, 'getData'])->name('reports.data'); // روت جدید برای AJAX
+    Route::get('/reports/{id}/update-status', [ReportController::class, 'updateStatus'])->name('reports.update.status');
     Route::get('/send-sms', [DashboardController::class, 'sendSms'])->name('send.sms');
     Route::middleware('role:staff,admin')->group(function () {
         Route::get('/contacts', [DashboardController::class, 'contacts'])->name('contacts.index');

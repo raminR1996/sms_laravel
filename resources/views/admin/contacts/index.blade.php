@@ -59,7 +59,10 @@
 
                 $('#villagesTable').DataTable({
                     serverSide: true,
-                    scrollX: true,
+                        responsive: true,
+        sScrollX: "100%",
+        sScrollXInner: "110%",
+        bScrollCollapse: true,
                     ajax: "{{ route('admin.contacts.data') }}",
                     columns: [
                         {data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false},
@@ -67,27 +70,10 @@
                         {data: 'contacts_count', name: 'contacts_count'},
                         {data: 'actions', name: 'actions', orderable: false, searchable: false},
                     ],
-                    language: {
-                        emptyTable: "داده‌ای برای نمایش وجود ندارد",
-                        info: "نمایش _START_ تا _END_ از _TOTAL_ رکورد",
-                        infoEmpty: "نمایش 0 تا 0 از 0 رکورد",
-                        infoFiltered: "(فیلتر شده از مجموع _MAX_ رکورد)",
-                        lengthMenu: "نمایش _MENU_ رکورد",
-                        loadingRecords: "در حال بارگذاری...",
-                        processing: "در حال پردازش...",
-                        search: "جستجو:",
-                        zeroRecords: "رکوردی یافت نشد",
-                        paginate: {
-                            first: "اولین",
-                            last: "آخرین",
-                            next: "بعدی",
-                            previous: "قبلی"
-                        },
-                        aria: {
-                            sortAscending: ": فعال‌سازی مرتب‌سازی صعودی",
-                            sortDescending: ": فعال‌سازی مرتب‌سازی نزولی"
-                        }
-                    },
+                                language: {
+    url: '{{ asset("i18n/fa.json") }}'
+},
+  
                     paging: true,
                     pageLength: 10,
                     lengthChange: false,

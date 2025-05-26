@@ -61,6 +61,10 @@
             $('#contactsTable').DataTable({
                 processing: true,
                 serverSide: true,
+                  responsive: true,
+        sScrollX: "100%",
+        sScrollXInner: "110%",
+        bScrollCollapse: true,
                 ajax: "{{ route('admin.contacts.village.data', $village->id) }}",
                 columns: [
                     {data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false},
@@ -70,23 +74,10 @@
                     {data: 'birth_date', name: 'birth_date'},
                     {data: 'actions', name: 'actions', orderable: false, searchable: false},
                 ],
-                language: {
-                    "emptyTable": "داده‌ای برای نمایش وجود ندارد",
-                    "info": "نمایش _START_ تا _END_ از _TOTAL_ رکورد",
-                    "infoEmpty": "نمایش 0 تا 0 از 0 رکورد",
-                    "infoFiltered": "(فیلتر شده از مجموع _MAX_ رکورد)",
-                    "lengthMenu": "نمایش _MENU_ رکورد",
-                    "loadingRecords": "در حال بارگذاری...",
-                    "processing": "در حال پردازش...",
-                    "search": "جستجو:",
-                    "zeroRecords": "رکوردی یافت نشد",
-                    "paginate": {
-                        "first": "اولین",
-                        "last": "آخرین",
-                        "next": "بعدی",
-                        "previous": "قبلی"
-                    },
-                },
+                                            language: {
+    url: '{{ asset("i18n/fa.json") }}'
+},
+  
                 pageLength: 10,
                 lengthChange: false,
                 autoWidth: false

@@ -246,6 +246,18 @@ body {
     transform: translateY(-2px);
 }
 
+/* تنظیم اندازه آیکون‌ها در دکمه‌ها */
+.btn-sm i {
+    font-size: 0.85rem;
+    vertical-align: middle;
+}
+
+/* اطمینان از یکسان بودن padding دکمه‌ها */
+.btn-sm {
+    padding: 0.25rem 0.5rem;
+    line-height: 1;
+}
+
 /* جدول‌ها */
 .table {
     background-color: #ffffff;
@@ -428,6 +440,7 @@ body {
     transform: translateY(-2px);
     box-shadow: 0 5px 15px rgba(23, 162, 184, 0.3);
 }
+
 /* دکمه‌های وضعیت */
 .btn-success {
     background: linear-gradient(90deg, #28a745, #218838);

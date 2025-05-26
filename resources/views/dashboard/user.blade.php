@@ -16,10 +16,11 @@
     <p class="card-text">خرید بسته‌های پیامکی برای ارسال پیامک.</p>
     <a href="{{ route('charge.index') }}" class="card-btn">شارژ پنل</a>
 </div>
-                <div class="card">
+
+        <div class="card">
                     <h5 class="card-title">ارسال پیامک تکی</h5>
                     <p class="card-text">ارسال پیامک به یک شماره خاص.</p>
-                    <a href="#" class="card-btn">شروع کنید</a>
+                    <a href="{{ route('send.sms.single') }}" class="card-btn">شروع کنید</a>
                 </div>
                 <div class="card">
                     <h5 class="card-title">ارسال پیامک گروهی</h5>
