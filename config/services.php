@@ -35,7 +35,8 @@ return [
         ],
     ],
 'zarinpal' => [
-    'merchant_id' => env('ZARINPAL_MERCHANT_ID', '72ff488f-9c4d-481b-a9f7-ff40e51f42f9'),
-    'callback_url' => env('ZARINPAL_CALLBACK_URL', 'http://127.0.0.1:8000/payment/callback'),
+    'merchant_id' => env('ZARINPAL_MERCHANT_ID', 'ff7170b6-ab23-11e7-b224-005056a205be'),
+    'sandbox_mode' => env('ZARINPAL_SANDBOX_MODE', false),
+    'callback_url' => env('ZARINPAL_CALLBACK_URL', 'https://hadishsms.ir/payment/callback'),
 ],
 ];

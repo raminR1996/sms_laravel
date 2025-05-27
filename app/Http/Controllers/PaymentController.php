@@ -43,109 +43,111 @@ class PaymentController extends Controller
         return view('user.charge', compact('packages', 'payments', 'userPackages'));
     }
 
-  /**
- * پردازش درخواست خرید بسته و هدایت به درگاه پرداخت
- */
-public function purchase(Request $request)
-{
-    try {
-        Log::info('Starting purchase process', [
-            'user_id' => Auth::id(),
-            'request_data' => $request->all(),
-        ]);
+    /**
+     * پردازش درخواست خرید بسته و هدایت به درگاه پرداخت
+     */
+    public function purchase(Request $request)
+    {
+        try {
+            Log::info('Starting purchase process', [
+                'user_id' => Auth::id(),
+                'request_data' => $request->all(),
+            ]);
 
-        // اعتبارسنجی ورودی
-        $validated = $request->validate([
-            'package_id' => 'required|exists:packages,id',
-        ]);
+            // اعتبارسنجی ورودی
+            $validated = $request->validate([
+                'package_id' => 'required|exists:packages,id',
+            ]);
 
-        $package = Package::findOrFail($validated['package_id']);
-        $user = Auth::user();
+            $package = Package::findOrFail($validated['package_id']);
+            $user = Auth::user();
 
-        if (!$user) {
-            throw new \Exception('کاربر احراز هویت نشده است.');
+            if (!$user) {
+                throw new \Exception('کاربر احراز هویت نشده است.');
+            }
+
+            // ثبت پرداخت موقت
+            $payment = $this->createPendingPayment($user->id, $package);
+
+            // ذخیره package_id در دیتابیس
+            $payment->update(['package_id' => $package->id]);
+
+            // درخواست به زرین‌پال
+            $response = $this->requestPayment($package, $user, $payment);
+
+            if ($response->successful() && isset($response->json()['data']['authority'])) {
+                $authority = $response->json()['data']['authority'];
+                $payment->update(['transaction_id' => $authority]);
+
+                $paymentUrl = $this->sandboxMode
+                    ? "https://sandbox.zarinpal.com/pg/StartPay/{$authority}"
+                    : "https://www.zarinpal.com/pg/StartPay/{$authority}";
+
+                Log::info('Redirecting to Zarinpal', ['payment_url' => $paymentUrl]);
+                return redirect($paymentUrl);
+            }
+
+            $this->handlePaymentError($payment, $response->json());
+        } catch (\Exception $e) {
+            $this->logAndRedirectError($e, $payment ?? null, 'Purchase error');
         }
-
-        // ثبت پرداخت موقت
-        $payment = $this->createPendingPayment($user->id, $package);
-
-        // ذخیره package_id در دیتابیس
-        $payment->update(['package_id' => $package->id]);
-
-        // درخواست به زرین‌پال
-        $response = $this->requestPayment($package, $user, $payment);
-
-        if ($response->successful() && isset($response->json()['data']['authority'])) {
-            $authority = $response->json()['data']['authority'];
-            $payment->update(['transaction_id' => $authority]);
-
-            $paymentUrl = $this->sandboxMode
-                ? "https://sandbox.zarinpal.com/pg/StartPay/{$authority}"
-                : "https://www.zarinpal.com/pg/StartPay/{$authority}";
-
-            Log::info('Redirecting to Zarinpal', ['payment_url' => $paymentUrl]);
-            return redirect($paymentUrl);
-        }
-
-        $this->handlePaymentError($payment, $response->json());
-    } catch (\Exception $e) {
-        $this->logAndRedirectError($e, $payment ?? null, 'Purchase error');
     }
-}
- /**
- * پردازش پاسخ درگاه پرداخت
- */
-public function callback(Request $request)
-{
-    try {
-        Log::info('Callback request received', ['request' => $request->all()]);
 
-        $authority = $request->input('Authority');
-        $status = $request->input('Status');
+    /**
+     * پردازش پاسخ درگاه پرداخت
+     */
+    public function callback(Request $request)
+    {
+        try {
+            Log::info('Callback request received', ['request' => $request->all()]);
 
-        if (!$authority || !$status) {
-            throw new \Exception('داده‌های Authority یا Status دریافت نشده است.');
-        }
+            $authority = $request->input('Authority');
+            $status = $request->input('Status');
 
-        $payment = Payment::where('transaction_id', $authority)->first();
-        if (!$payment) {
-            throw new \Exception("تراکنش یافت نشد. Authority: {$authority}");
-        }
+            if (!$authority || !$status) {
+                throw new \Exception('داده‌های Authority یا Status دریافت نشده است.');
+            }
 
-        if ($status !== 'OK') {
-            $payment->update(['status' => 'failed']);
-            throw new \Exception("پرداخت لغو شد. Status: {$status}");
-        }
+            $payment = Payment::where('transaction_id', $authority)->first();
+            if (!$payment) {
+                throw new \Exception("تراکنش یافت نشد. Authority: {$authority}");
+            }
 
-        $response = $this->verifyPayment($payment, $authority);
-        if ($response->successful() && isset($response->json()['data']['code']) && $response->json()['data']['code'] == 100) {
-            $this->processSuccessfulPayment($payment);
-            return redirect()->route('charge.index')->with('success', 'پرداخت با موفقیت انجام شد.');
-        }
+            if ($status !== 'OK') {
+                $payment->update(['status' => 'failed']);
+                throw new \Exception("پرداخت لغو شد. Status: {$status}");
+            }
 
-        $this->handlePaymentError($payment, $response->json());
-    } catch (\Exception $e) {
-        if (isset($payment)) {
-            $payment->update(['status' => 'failed']);
-        }
-        Log::error('Callback error', [
-            'message' => $e->getMessage(),
-            'trace' => $e->getTraceAsString(),
-            'authority' => $authority ?? 'N/A',
-            'request' => $request->all(),
-        ]);
+            $response = $this->verifyPayment($payment, $authority);
+            if ($response->successful() && isset($response->json()['data']['code']) && $response->json()['data']['code'] == 100) {
+                $this->processSuccessfulPayment($payment);
+                return redirect()->route('charge.index')->with('success', 'پرداخت با موفقیت انجام شد.');
+            }
 
-        // اگر کاربر وارد نشده باشد، مستقیماً یک پاسخ JSON برگردانیم
-        if (!Auth::check()) {
-            return response()->json([
-                'status' => 'error',
+            $this->handlePaymentError($payment, $response->json());
+        } catch (\Exception $e) {
+            if (isset($payment)) {
+                $payment->update(['status' => 'failed']);
+            }
+            Log::error('Callback error', [
                 'message' => $e->getMessage(),
-            ], 400);
-        }
+                'trace' => $e->getTraceAsString(),
+                'authority' => $authority ?? 'N/A',
+                'request' => $request->all(),
+            ]);
 
-        return redirect()->route('charge.index')->with('error', 'خطا: ' . $e->getMessage());
+            // اگر کاربر وارد نشده باشد، مستقیماً یک پاسخ JSON برگردانیم
+            if (!Auth::check()) {
+                return response()->json([
+                    'status' => 'error',
+                    'message' => $e->getMessage(),
+                ], 400);
+            }
+
+            return redirect()->route('charge.index')->with('error', 'خطا: ' . $e->getMessage());
+        }
     }
-}
+
     /**
      * ثبت پرداخت موقت
      */
@@ -166,53 +168,59 @@ public function callback(Request $request)
         return $payment;
     }
 
-  /**
- * ارسال درخواست پرداخت به زرین‌پال
- */
-protected function requestPayment(Package $package, $user, Payment $payment)
-{
-    $callbackUrl = config('services.zarinpal.callback_url', route('payment.callback'));
-    $description = "خرید بسته {$package->sms_count} پیامکی";
-    $mobile = $user->phone_number ?? '09120000000';
-    $email = $user->email ?? 'user@example.com';
+    /**
+     * ارسال درخواست پرداخت به زرین‌پال
+     */
+    protected function requestPayment(Package $package, $user, Payment $payment)
+    {
+        $callbackUrl = config('services.zarinpal.callback_url', route('payment.callback'));
+        $description = "خرید بسته {$package->sms_count} پیامکی";
+        $mobile = $user->phone_number ?? '09120000000';
+        $email = $user->email ?? 'user@example.com';
 
-    Log::info('Zarinpal request data', [
-        'merchant_id' => $this->merchantId,
-        'amount' => $package->price,
-        'description' => $description,
-        'callback_url' => $callbackUrl,
-        'mobile' => $mobile,
-        'email' => $email,
-    ]);
+        // تبدیل مبلغ به ریال (۱ تومان = ۱۰ ریال)
+        $amountInRials = $package->price * 10;
 
-    return Http::post("{$this->baseUrl}/request.json", [
-        'merchant_id' => $this->merchantId,
-        'amount' => $package->price,
-        'description' => $description,
-        'callback_url' => $callbackUrl,
-        'mobile' => $mobile,
-        'email' => $email,
-    ]);
-}
+        Log::info('Zarinpal request data', [
+            'merchant_id' => $this->merchantId,
+            'amount' => $amountInRials,
+            'description' => $description,
+            'callback_url' => $callbackUrl,
+            'mobile' => $mobile,
+            'email' => $email,
+        ]);
 
-   /**
- * تأیید پرداخت از زرین‌پال
- */
-protected function verifyPayment(Payment $payment, string $authority)
-{
-    $response = Http::post("{$this->baseUrl}/verify.json", [
-        'merchant_id' => $this->merchantId,
-        'authority' => $authority,
-        'amount' => $payment->amount,
-    ]);
+        return Http::post("{$this->baseUrl}/request.json", [
+            'merchant_id' => $this->merchantId,
+            'amount' => $amountInRials,
+            'description' => $description,
+            'callback_url' => $callbackUrl,
+            'mobile' => $mobile,
+            'email' => $email,
+        ]);
+    }
 
-    Log::info('Zarinpal verify response', [
-        'status' => $response->status(),
-        'result' => $response->json(),
-    ]);
+    /**
+     * تأیید پرداخت از زرین‌پال
+     */
+    protected function verifyPayment(Payment $payment, string $authority)
+    {
+        // تبدیل مبلغ به ریال
+        $amountInRials = $payment->amount * 10;
 
-    return $response;
-}
+        $response = Http::post("{$this->baseUrl}/verify.json", [
+            'merchant_id' => $this->merchantId,
+            'authority' => $authority,
+            'amount' => $amountInRials,
+        ]);
+
+        Log::info('Zarinpal verify response', [
+            'status' => $response->status(),
+            'result' => $response->json(),
+        ]);
+
+        return $response;
+    }
 
     /**
      * پردازش پرداخت موفق
