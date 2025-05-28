@@ -4,24 +4,7 @@
 
 @section('css')
 <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-<style>
-    .select2-container {
-        width: 100% !important;
-    }
-    .select2-selection--multiple, .select2-selection--single {
-        min-height: 38px !important;
-        border: 1px solid #ced4da !important;
-        border-radius: 0.375rem !important;
-    }
-    .select2-selection__choice {
-        background-color: #007bff !important;
-        color: #fff !important;
-        border: none !important;
-    }
-    .select2-selection__choice__remove {
-        color: #fff !important;
-    }
-</style>
+
 @endsection
 
 @section('content')
@@ -36,7 +19,7 @@
                     <select name="line_number" id="line_number" class="form-control select2" required>
                         <option value="" disabled selected>یک خط انتخاب کنید</option>
                         @foreach(\App\Models\Line::where('is_active', true)->get() as $line)
-                            <option value="{{ $line->line_number }}">{{ $line->line_number }} ({{ $line->operator_name }})</option>
+                            <option value="{{ $line->line_number }}">{{ $line->line_number }} ({{ $line->operator_name }} - {{ $line->line_type === 'service' ? 'خدماتی' : 'تبلیغاتی' }})</option>
                         @endforeach
                     </select>
                     @error('line_number')
@@ -53,15 +36,20 @@
                     @enderror
                 </div>
 
-                <div class="mb-3">
-                    <label for="message" class="form-label">متن پیامک:</label>
-                    <textarea name="message" id="message" class="form-control" rows="5" required oninput="calculateSmsCount()"></textarea>
-                    @error('message')
-                        <div class="text-danger mt-1">{{ $message }}</div>
-                    @enderror
-                </div>
+               <div class="mb-3">
+    <label for="message" class="form-label">متن پیامک:</label>
+    <textarea name="message" id="message" class="form-control" rows="5" required oninput="calculateSmsCount()"></textarea>
+    @error('message')
+        <div class="text-danger mt-1">{{ $message }}</div>
+    @enderror
+    <div class="sms-info mt-2">
+        <span>تعداد کاراکتر: <span id="char-count">0</span> / <span id="max-chars">70</span></span> |
+        <span>تعداد پیامک: <span id="sms-count">1</span></span> |
+        <span>زبان: <span id="language">فارسی</span></span>
+    </div>
+</div>
 
-                <div class="mb-3">
+                {{-- <div class="mb-3">
                     <label>تعداد پیامک‌ها: </label>
                     <span id="sms-count">0</span>
                 </div>
@@ -69,7 +57,7 @@
                 <div class="mb-3">
                     <label>مانده اعتبار: </label>
                     <span id="balance">{{ auth()->user()->sms_balance ?? 0 }}</span> پیامک
-                </div>
+                </div> --}}
 
                 <button type="submit" class="btn btn-primary">ارسال</button>
             </form>
@@ -95,13 +83,24 @@
         });
     });
 
-    function calculateSmsCount() {
+  function calculateSmsCount() {
         const message = document.getElementById('message').value;
         const isPersian = /[\u0600-\u06FF]/.test(message);
-        const smsLength = isPersian ? 70 : 160;
+        const smsLength = isPersian || !message ? 70 : 160; // اگر پیام خالی است، فرض فارسی
         const messageLength = message.length;
-        const smsCount = Math.ceil(messageLength / smsLength);
+        const smsCount = Math.ceil(messageLength / smsLength) || 1; // حداقل 1 پیامک
+
+        // به‌روزرسانی تعداد کاراکتر
+        document.getElementById('char-count').innerText = messageLength;
+
+        // به‌روزرسانی حداکثر کاراکتر
+        document.getElementById('max-chars').innerText = smsLength;
+
+        // به‌روزرسانی تعداد پیامک
         document.getElementById('sms-count').innerText = smsCount;
+
+        // به‌روزرسانی زبان
+        document.getElementById('language').innerText = isPersian || !message ? 'فارسی' : 'انگلیسی';
     }
 </script>
 @endsection

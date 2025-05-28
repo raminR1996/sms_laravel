@@ -17,10 +17,10 @@
     <p class="card-text">ایجاد و مدیریت بسته‌های شارژ پیامک.</p>
     <a href="{{ route('admin.packages.index') }}" class="card-btn">مدیریت بسته‌ها</a>
 </div>
-                <div class="card">
-                    <h5 class="card-title">گزارش‌ها</h5>
-                    <p class="card-text">تحلیل ارسال‌ها، تحویل و نرخ کلیک‌ها.</p>
-                    <a href="#" class="card-btn">نمایش گزارش‌ها</a>
+                 <div class="card">
+                    <h5 class="card-title">مدیریت درخواست‌های پیامک گروهی</h5>
+                    <p class="card-text">تأیید یا رد درخواست‌های پیامک گروهی.</p>
+                    <a href="{{ route('admin.group-sms-requests') }}" class="card-btn">مدیریت درخواست‌ها</a>
                 </div>
                 <div class="card">
                     <h5 class="card-title">مدیریت مخاطبین</h5>

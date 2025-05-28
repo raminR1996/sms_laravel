@@ -11,6 +11,13 @@
             @endif
             <h1 class="text-center mb-4">{{ $siteTitle }} - داشبورد کاربر</h1>
             <div class="card-grid">
+                   @if (auth()->user()->profile_completed && !auth()->user()->documents && !auth()->user()->documents_verified)
+                    <div class="card">
+                        <h5 class="card-title">آپلود مدارک</h5>
+                        <p class="card-text">مدارک شما رد شده است. لطفاً مدارک جدیدی آپلود کنید.</p>
+                        <a href="{{ route('documents.upload.form') }}" class="card-btn">آپلود مدارک</a>
+                    </div>
+                @endif
                 <div class="card">
     <h5 class="card-title">شارژ پنل</h5>
     <p class="card-text">خرید بسته‌های پیامکی برای ارسال پیامک.</p>
@@ -25,15 +32,19 @@
                 <div class="card">
                     <h5 class="card-title">ارسال پیامک گروهی</h5>
                     <p class="card-text">ارسال پیامک به چندین مخاطب به صورت همزمان.</p>
-                    <a href="#" class="card-btn">شروع کنید</a>
+                    <a href="{{ route('send.sms.group') }}" class="card-btn">شروع کنید</a>
                 </div>
-                @if (auth()->user()->profile_completed && !auth()->user()->documents && !auth()->user()->documents_verified)
-                    <div class="card">
-                        <h5 class="card-title">آپلود مدارک</h5>
-                        <p class="card-text">مدارک شما رد شده است. لطفاً مدارک جدیدی آپلود کنید.</p>
-                        <a href="{{ route('documents.upload.form') }}" class="card-btn">آپلود مدارک</a>
-                    </div>
-                @endif
+             
+                 <div class="card">
+            <h5 class="card-title">گزارشات پیامک تکی</h5>
+            <p class="card-text">مشاهده گزارشات ارسال پیامک تکی.</p>
+            <a href="{{ route('reports.index') }}" class="card-btn">گزارشات تکی</a>
+        </div>
+        <div class="card">
+            <h5 class="card-title">گزارشات پیامک گروهی</h5>
+            <p class="card-text">مشاهده گزارشات ارسال پیامک گروهی.</p>
+            <a href="{{ route('group.reports.index') }}" class="card-btn">گزارشات گروهی</a>
+        </div>
             </div>
             <div class="card mt-4">
                 <div class="card-body text-center">

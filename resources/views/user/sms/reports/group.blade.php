@@ -1,6 +1,6 @@
 @extends('layouts.layout')
 
-@section('title', 'گزارشات')
+@section('title', 'گزارشات پیامک گروهی')
 
 @section('css')
 <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
@@ -33,7 +33,7 @@
 
 @section('content')
 <div class="container">
-    <h1 class="text-center mb-4">گزارشات ارسال</h1>
+    <h1 class="text-center mb-4">گزارشات پیامک گروهی</h1>
     <div class="card">
         <div class="card-body">
             <!-- لودینگ اسپینر -->
@@ -46,15 +46,17 @@
             <!-- جدول -->
             <div id="data-table-container" style="display: none;">
                 <div class="table-responsive">
-                    <table id="reportsTable" class="table table-striped table-bordered" style="width:100%">
+                    <table id="groupReportsTable" class="table table-striped table-bordered" style="width:100%">
                         <thead>
                             <tr>
                                 <th>#</th>
                                 <th>تاریخ</th>
                                 <th>شماره خط</th>
+                                <th>روستاها</th>
                                 <th>تعداد شماره‌ها</th>
                                 <th>متن پیامک</th>
                                 <th>تعداد پیامک‌ها</th>
+                                <th>وضعیت</th>
                                 <th>عملیات</th>
                             </tr>
                         </thead>
@@ -96,21 +98,23 @@
             document.getElementById('loading-spinner').style.display = 'none';
             document.getElementById('data-table-container').style.display = 'block';
 
-            $('#reportsTable').DataTable({
+            $('#groupReportsTable').DataTable({
                 processing: true,
                 serverSide: true,
                 responsive: true,
                 sScrollX: "100%",
                 sScrollXInner: "110%",
                 bScrollCollapse: true,
-                ajax: '{{ route("reports.data") }}',
+                ajax: '{{ route("group.reports.data") }}',
                 columns: [
                     { data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false },
                     { data: 'created_at', name: 'created_at' },
                     { data: 'line_number', name: 'line_number' },
+                    { data: 'villages', name: 'villages', orderable: false, searchable: true },
                     { data: 'numbers_count', name: 'numbers_count', orderable: false, searchable: false },
                     { data: 'message', name: 'message' },
                     { data: 'sms_count', name: 'sms_count' },
+                    { data: 'status', name: 'status', orderable: false, searchable: true },
                     { data: 'action', name: 'action', orderable: false, searchable: false }
                 ],
                 language: {
@@ -134,51 +138,62 @@
             event.preventDefault();
             event.stopPropagation();
 
-            const numbers = JSON.parse(this.getAttribute('data-numbers'));
-            const statuses = JSON.parse(this.getAttribute('data-statuses'));
-            const datetimes = JSON.parse(this.getAttribute('data-datetimes') || '[]');
+            let numbers, statuses, datetimes;
+
+            try {
+                numbers = JSON.parse(this.getAttribute('data-numbers') || '[]');
+                statuses = JSON.parse(this.getAttribute('data-statuses') || '[]');
+                datetimes = JSON.parse(this.getAttribute('data-datetimes') || '[]');
+            } catch (e) {
+                console.error('Error parsing JSON data:', e);
+                modalList.innerHTML = '<p class="text-danger">خطا در بارگذاری داده‌ها. لطفاً دوباره تلاش کنید.</p>';
+                modal.show();
+                return;
+            }
 
             modalList.innerHTML = '';
 
-            if (Array.isArray(numbers)) {
-                numbers.forEach((number, index) => {
-                    const status = (Array.isArray(statuses) && statuses[index]) ? statuses[index] : 'unknown';
-                    const datetime = (Array.isArray(datetimes) && datetimes[index]) ? datetimes[index] : 'نامشخص';
-                    let badgeClass = 'bg-secondary';
-                    let statusText = 'وضعیت دریافت نشده';
-
-                    switch (status) {
-                        case 'DELIVERED':
-                            badgeClass = 'bg-success';
-                            statusText = 'رسیده';
-                            break;
-                        case 'ENQUEUED':
-                            badgeClass = 'bg-warning';
-                            statusText = 'در انتظار';
-                            break;
-                        case 'FAILED':
-                            badgeClass = 'bg-danger';
-                            statusText = 'نرسیده';
-                            break;
-                        default:
-                            badgeClass = 'bg-secondary';
-                            statusText = 'نامشخص';
-                    }
-
-                    const listItem = document.createElement('li');
-                    listItem.className = 'list-group-item d-flex justify-content-between align-items-center';
-                    listItem.innerHTML = `
-                        <div>
-                            <strong>${number}</strong>
-                            <small class="d-block text-muted">تاریخ: ${datetime}</small>
-                        </div>
-                        <span class="badge ${badgeClass}">${statusText}</span>
-                    `;
-                    modalList.appendChild(listItem);
-                });
-            } else {
-                modalList.innerHTML = '<p class="text-danger">شماره‌ها نامعتبر هستند.</p>';
+            if (!Array.isArray(numbers) || numbers.length === 0) {
+                modalList.innerHTML = '<p class="text-danger">شماره‌ها نامعتبر یا خالی هستند.</p>';
+                modal.show();
+                return;
             }
+
+            numbers.forEach((number, index) => {
+                const status = (Array.isArray(statuses) && statuses[index]) ? statuses[index] : 'unknown';
+                const datetime = (Array.isArray(datetimes) && datetimes[index]) ? datetimes[index] : 'نامشخص';
+                let badgeClass = 'bg-secondary';
+                let statusText = 'وضعیت دریافت نشده';
+
+                switch (status) {
+                    case 'DELIVERED':
+                        badgeClass = 'bg-success';
+                        statusText = 'رسیده';
+                        break;
+                    case 'ENQUEUED':
+                        badgeClass = 'bg-warning';
+                        statusText = 'در انتظار';
+                        break;
+                    case 'FAILED':
+                        badgeClass = 'bg-danger';
+                        statusText = 'نرسیده';
+                        break;
+                    default:
+                        badgeClass = 'bg-secondary';
+                        statusText = 'نامشخص';
+                }
+
+                const listItem = document.createElement('li');
+                listItem.className = 'list-group-item d-flex justify-content-between align-items-center';
+                listItem.innerHTML = `
+                    <div>
+                        <strong>${number}</strong>
+                        <small class="d-block text-muted">تاریخ: ${datetime}</small>
+                    </div>
+                    <span class="badge ${badgeClass}">${statusText}</span>
+                `;
+                modalList.appendChild(listItem);
+            });
 
             modal.show();
         });

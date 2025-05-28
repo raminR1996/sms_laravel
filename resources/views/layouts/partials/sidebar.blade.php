@@ -62,18 +62,29 @@
             <a class="nav-link" href="{{ route('profile.edit') }}"><i class="fas fa-user me-2"></i> پروفایل من</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="{{ route('send.sms.single') }}"><i class="fas fa-sms me-2"></i> ارسال پیامک</a>
+            <details class="sidebar-submenu">
+                <summary class="nav-link">
+                    <i class="fas fa-sms me-2"></i> ارسال پیامک
+                </summary>
+                <ul class="submenu-items">
+                    <li><a class="nav-link submenu-link" href="{{ route('send.sms.single') }}"><i class="fas fa-comment me-2"></i> ارسال پیامک تکی</a></li>
+                    <li><a class="nav-link submenu-link" href="{{ route('send.sms.group') }}"><i class="fas fa-comments me-2"></i> ارسال پیامک گروهی</a></li>
+                </ul>
+            </details>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="{{ route('reports.index') }}"><i class="fas fa-file-alt me-2"></i> گزارشات</a>
+            <details class="sidebar-submenu">
+                <summary class="nav-link">
+                    <i class="fas fa-file-alt me-2"></i> گزارشات
+                </summary>
+                <ul class="submenu-items">
+                    <li><a class="nav-link submenu-link" href="{{ route('reports.index') }}"><i class="fas fa-file me-2"></i> گزارشات تکی</a></li>
+                    <li><a class="nav-link submenu-link" href="{{ route('group.reports.index') }}"><i class="fas fa-file me-2"></i> گزارشات گروهی</a></li>
+                </ul>
+            </details>
         </li>
         <li class="nav-item">
             <a class="nav-link" href="{{ route('charge.index') }}"><i class="fas fa-wallet me-2"></i> شارژ پنل</a>
-        </li>
-        <li class="nav-item">
-            <span class="nav-link text-success">
-                <i class="fas fa-sms me-2"></i> مانده پیامک: {{ auth()->user()->sms_balance }} عدد
-            </span>
         </li>
     @endif
 

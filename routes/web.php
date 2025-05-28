@@ -5,6 +5,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\OtpController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\GroupReportController;
+use App\Http\Controllers\GroupSmsController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\SettingsController;
@@ -52,6 +54,15 @@ Route::middleware(['auth', 'verified', 'profile.complete'])->group(function () {
 // روت‌های ارسال پیامک
     Route::get('/send-sms/single', [SmsController::class, 'sendSingleSms'])->name('send.sms.single');
     Route::post('/send-sms/single', [SmsController::class, 'storeSingleSms'])->name('send.sms.single.store');
+
+        // روت‌های ارسال پیامک گروهی
+    Route::get('/send-sms/group', [GroupSmsController::class, 'sendGroupSms'])->name('send.sms.group');
+    Route::post('/send-sms/group', [GroupSmsController::class, 'storeGroupSms'])->name('send.sms.group.store');
+
+    // روت‌های گزارشات گروهی
+    Route::get('/group-reports', [GroupReportController::class, 'index'])->name('group.reports.index');
+    Route::get('/group-reports/data', [GroupReportController::class, 'getData'])->name('group.reports.data');
+    Route::get('/group-reports/{id}/update-status', [GroupReportController::class, 'updateStatus'])->name('group.reports.update.status');
 
     Route::get('/reports', [ReportController::class, 'index'])->name('reports.index');
     Route::get('/reports/data', [ReportController::class, 'getData'])->name('reports.data'); // روت جدید برای AJAX
