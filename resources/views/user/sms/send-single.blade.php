@@ -10,6 +10,9 @@
 @section('content')
 <div class="container">
     <h1 class="text-center mb-4">ارسال پیامک تکی</h1>
+    <div class="alert alert-info">
+    حداکثر 100 شماره در هر درخواست می‌توانید وارد کنید.
+    </div>
     <div class="card">
         <div class="card-body">
             <form method="POST" action="{{ route('send.sms.single.store') }}">
@@ -70,11 +73,20 @@
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <script>
     $(document).ready(function() {
-        $('#numbers').select2({
+       $('#numbers').select2({
             tags: true,
             tokenSeparators: [',', '\n'],
             placeholder: "شماره‌ها را وارد کنید (مثال: 09123456789)",
-            allowClear: true
+            allowClear: true,
+            maximumSelectionLength: 100 // محدود کردن به 100 شماره
+        });
+
+        $('#numbers').on('change', function() {
+            const count = $(this).select2('data').length;
+            if (count > 100) {
+                alert('حداکثر 100 شماره می‌توانید وارد کنید.');
+                $(this).val(null).trigger('change');
+            }
         });
 
         $('#line_number').select2({

@@ -30,49 +30,49 @@ class SendGroupSmsJob implements ShouldQueue
     /**
      * Execute the job.
      */
-    public function handle()
-    {
-        $apiKey = env('SABANOVIN_API_KEY');
-        $url = "https://api.sabanovin.com/v1/{$apiKey}/sms/send.json";
-        $client = new Client();
+  public function handle()
+{
+    $apiKey = env('SABANOVIN_API_KEY');
+    $url = "https://api.sabanovin.com/v1/{$apiKey}/sms/send.json";
+    $client = new Client();
+    $chunks = array_chunk($this->numbers, 100);
+    $batchIds = [];
+    $failed = false;
 
-        // تقسیم شماره‌ها به دسته‌های 100تایی
-        $chunks = array_chunk($this->numbers, 100);
-
-        foreach ($chunks as $chunk) {
-            try {
-                $to = implode(',', $chunk);
-                $queryParams = [
-                    'gateway' => $this->groupSmsRequest->line_number,
-                    'to' => $to,
-                    'text' => $this->groupSmsRequest->message,
-                ];
-
-                $response = $client->get($url, ['query' => $queryParams]);
-                $result = json_decode($response->getBody(), true);
-
-                if (!isset($result['status']['code']) || $result['status']['code'] != 200) {
-                    throw new \Exception($result['status']['message'] ?? 'خطا در ارسال پیامک.');
-                }
-
-                // ذخیره batch_id برای اولین دسته (یا می‌تونید همه رو ذخیره کنید)
-                if (!$this->groupSmsRequest->batch_id) {
-                    $this->groupSmsRequest->update(['batch_id' => $result['batch_id'] ?? 'unknown']);
-                }
-
-                Log::info('Group SMS batch sent successfully', [
-                    'request_id' => $this->groupSmsRequest->id,
-                    'batch_id' => $result['batch_id'] ?? 'unknown',
-                    'numbers_count' => count($chunk),
-                ]);
-            } catch (\Exception $e) {
-                Log::error('Error sending group SMS batch', [
-                    'request_id' => $this->groupSmsRequest->id,
-                    'error' => $e->getMessage(),
-                    'numbers_count' => count($chunk),
-                ]);
-                // در صورت خطا، می‌تونید تصمیم بگیرید که ادامه بدید یا متوقف کنید
+    foreach ($chunks as $index => $chunk) {
+        try {
+            if ($index > 0) {
+                usleep(600000);
             }
+
+            $to = implode(',', $chunk);
+            $queryParams = [
+                'gateway' => $this->groupSmsRequest->line_number,
+                'to' => $to,
+                'text' => $this->groupSmsRequest->message,
+            ];
+
+            $response = $client->get($url, ['query' => $queryParams]);
+            $result = json_decode($response->getBody(), true);
+
+            if (!isset($result['status']['code']) || $result['status']['code'] != 200) {
+                throw new \Exception($result['status']['message'] ?? 'خطا در ارسال پیامک.');
+            }
+
+            $batchIds[] = $result['batch_id'] ?? 'unknown';
+        } catch (\Exception $e) {
+            Log::error('Error sending group SMS batch', [
+                'request_id' => $this->groupSmsRequest->id,
+                'error' => $e->getMessage(),
+                'numbers_count' => count($chunk),
+            ]);
+            $failed = true;
         }
     }
+
+    $this->groupSmsRequest->update([
+        'batch_id' => json_encode($batchIds),
+        'status' => $failed ? 'failed' : 'approved',
+    ]);
+}
 }

@@ -5,20 +5,6 @@
 @section('content')
     <div class="container">
         <h1 class="text-center mb-4">آپلود مدارک</h1>
-        @if (session('success'))
-            <div class="alert alert-success">
-                {{ session('success') }}
-            </div>
-        @endif
-        @if ($errors->any())
-            <div class="alert alert-danger">
-                <ul>
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
-        @endif
         <form method="POST" action="{{ route('documents.upload') }}" enctype="multipart/form-data">
             @csrf
             <div class="mb-3">

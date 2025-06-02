@@ -7,6 +7,7 @@ use App\Models\Setting;
 use App\Services\SettingService;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
+use Yajra\DataTables\Facades\DataTables;
 
 class SettingsController extends Controller
 {
@@ -19,8 +20,24 @@ class SettingsController extends Controller
 
     public function index(): View
     {
-        $settings = $this->settingService->getAllSettings();
-        return view('admin.settings.index', compact('settings'));
+        return view('admin.settings.index');
+    }
+
+    // متد جدید برای دریافت داده‌های جدول با Ajax
+    public function getData()
+    {
+        $settings = Setting::query();
+
+        return DataTables::of($settings)
+            ->addIndexColumn()
+            ->editColumn('value', function ($setting) {
+                return \Str::limit($setting->value, 50);
+            })
+            ->addColumn('actions', function ($setting) {
+                return view('admin.settings.actions', compact('setting'))->render();
+            })
+            ->rawColumns(['actions'])
+            ->make(true);
     }
 
     public function create(): View

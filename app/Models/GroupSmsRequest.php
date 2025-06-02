@@ -22,6 +22,7 @@ class GroupSmsRequest extends Model
 
     protected $casts = [
         'village_ids' => 'array',
+        'batch_id' => 'array',
         'approved_at' => 'datetime',
         'statuses' => 'array',
         'datetimes' => 'array',

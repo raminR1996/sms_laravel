@@ -15,12 +15,6 @@
                 <h1>شماره‌های روستا: {{ $village->name }}</h1>
             </div>
 
-            @if (session('success'))
-                <div class="alert alert-success">
-                    {{ session('success') }}
-                </div>
-            @endif
-
             <div id="loading-spinner">
                 <div class="spinner-border text-primary" role="status">
                     <span class="visually-hidden">در حال بارگذاری...</span>
@@ -59,12 +53,9 @@
             }, 1000);
 
             $('#contactsTable').DataTable({
-                processing: true,
-                serverSide: true,
-                  responsive: true,
-        sScrollX: "100%",
-        sScrollXInner: "110%",
-        bScrollCollapse: true,
+             processing: true,
+                    serverSide: true,
+                    responsive: true,
                 ajax: "{{ route('admin.contacts.village.data', $village->id) }}",
                 columns: [
                     {data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false},

@@ -112,4 +112,8 @@ return [
 
     'password_timeout' => env('AUTH_PASSWORD_TIMEOUT', 10800),
 
+    // اضافه کردن مسیر هدایت برای عدم احراز هویت
+    'redirects' => [
+        'login' => '/otp-login',
+    ],
 ];

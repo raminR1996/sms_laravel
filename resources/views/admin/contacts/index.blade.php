@@ -14,13 +14,6 @@
             <div class="settings-card-header">
                 <h1>مدیریت روستاها و کانتکت‌ها</h1>
             </div>
-
-            @if (session('success'))
-                <div class="alert alert-success">
-                    {{ session('success') }}
-                </div>
-            @endif
-
             {{-- لودینگ اسپینر --}}
             <div id="loading-spinner">
                 <div class="spinner-border text-primary" role="status">
@@ -58,11 +51,9 @@
                 document.getElementById('data-table-container').style.display = 'block';
 
                 $('#villagesTable').DataTable({
+                    processing: true,
                     serverSide: true,
-                        responsive: true,
-        sScrollX: "100%",
-        sScrollXInner: "110%",
-        bScrollCollapse: true,
+                    responsive: true,
                     ajax: "{{ route('admin.contacts.data') }}",
                     columns: [
                         {data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false},

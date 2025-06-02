@@ -1,77 +1,88 @@
 @extends('layouts.layout')
 
-@section('title', 'تنظیمات سایت')
+@section('title', 'مدیریت تنظیمات')
 
 @section('css')
-  <!-- فایل CSS -->
-    <link rel="stylesheet" href="{{ asset('css/settings-page.css') }}">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="{{ asset('css/datatable.css') }}">
 @endsection
+
 @section('content')
-<!-- اضافه کردن Font Awesome برای آیکون‌ها -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-
-<!-- اضافه کردن کلاس settings-page به بدنه یا یک دیو -->
-<div class="settings-page">
-    <!-- فراخوانی کامپوننت نان بری -->
     <x-breadcrumb />
-
-    <div class="container settings-container">
-        <div class="row justify-content-center">
-            <div class="col-md-10">
-                <div class="settings-card">
-                    <div class="settings-card-header">
+    <div class="container">
+        <div class="settings-card">
+            <div class="settings-card-header">
                         <h1>مدیریت تنظیمات سایت</h1>
-                        <a href="{{ route('dashboard') }}" class="btn btn-secondary">
-                            <i class="fas fa-arrow-left"></i> بازگشت به داشبورد
-                        </a>
-                    </div>
+                    
+            </div>
 
-                    @if(session('success'))
-                        <div class="alert alert-success text-center">{{ session('success') }}</div>
-                    @endif
+                
 
                     <a href="{{ route('admin.settings.create') }}" class="btn btn-primary mb-3">
                         <i class="fas fa-plus"></i> افزودن تنظیمات جدید
                     </a>
 
-                    <div class="table-responsive">
-                        <table class="table table-bordered">
-                            <thead>
-                                <tr>
-                                    <th>کلید</th>
-                                    <th>مقدار</th>
-                                    <th>عملیات</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @forelse($settings as $setting)
-                                    <tr>
-                                        <td>{{ $setting->key }}</td>
-                                        <td>{{ Str::limit($setting->value, 50) }}</td>
-                                     <td class="action-buttons">
-    <a href="{{ route('admin.settings.edit', $setting->id) }}" class="btn btn-icon btn-warning" title="ویرایش تنظیم">
-        <i class="fas fa-edit"></i>
-    </a>
-    <form action="{{ route('admin.settings.destroy', $setting->id) }}" method="POST" style="display:inline;">
-        @csrf
-        @method('DELETE')
-        <button type="submit" class="btn btn-icon btn-danger" title="حذف تنظیم" onclick="return confirm('آیا مطمئن هستید؟')">
-            <i class="fas fa-trash"></i>
-        </button>
-    </form>
-</td>
-                                    </tr>
-                                @empty
-                                    <tr>
-                                        <td colspan="3" class="text-center">هیچ تنظیماتی یافت نشد.</td>
-                                    </tr>
-                                @endforelse
-                            </tbody>
-                        </table>
+                    <!-- لودینگ اسپینر -->
+                    <div id="loading-spinner">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="visually-hidden">در حال بارگذاری...</span>
+                        </div>
                     </div>
-                </div>
-            </div>
+
+                    <!-- جدول -->
+                    <div id="data-table-container" style="display: none;">
+                        <div class="table-responsive">
+                            <table id="settingsTable" class="table table-striped table-bordered" style="width:100%">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>کلید</th>
+                                        <th>مقدار</th>
+                                        <th>عملیات</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
+               
+            
         </div>
     </div>
-</div>
+@endsection
+
+@section('js')
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            setTimeout(function () {
+                document.getElementById('loading-spinner').style.display = 'none';
+                document.getElementById('data-table-container').style.display = 'block';
+
+                $('#settingsTable').DataTable({
+                     processing: true,
+                    serverSide: true,
+                    responsive: true,
+                    ajax: "{{ route('admin.settings.data') }}",
+                    columns: [
+                        { data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false },
+                        { data: 'key', name: 'key' },
+                        { data: 'value', name: 'value' },
+                        { data: 'actions', name: 'actions', orderable: false, searchable: false },
+                    ],
+                    language: {
+                        url: '{{ asset("i18n/fa.json") }}'
+                    },
+                    paging: true,
+                    pageLength: 10,
+                    lengthChange: false,
+                    searching: true,
+                    ordering: true,
+                    info: true,
+                    autoWidth: false,
+                });
+            }, 1000); // 1 ثانیه دیلی
+        });
+    </script>
 @endsection

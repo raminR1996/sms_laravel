@@ -74,7 +74,7 @@ class ProfileController extends Controller
         return redirect()->route('documents.upload.form')->with('success', 'پروفایل با موفقیت تکمیل شد. لطفاً مدارک خود را آپلود کنید.');
     }
 
-    public function showDocumentsForm(): View
+   public function showDocumentsForm()
     {
         return view('profile.documents');
     }
@@ -88,16 +88,25 @@ class ProfileController extends Controller
 
         $user = auth()->user();
 
-        // آپلود فایل‌ها
-        $nationalIdPath = $request->file('national_id_photo')->store('documents', 'public');
-        $selfiePath = $request->file('selfie_with_id_photo')->store('documents', 'public');
+        // تولید نام منحصربه‌فرد برای فایل‌ها
+        $nationalIdName = uniqid('national_') . '.' . $request->file('national_id_photo')->extension();
+        $selfieName = uniqid('selfie_') . '.' . $request->file('selfie_with_id_photo')->extension();
 
-        // ذخیره در جدول documents
+        // ذخیره فایل‌ها در storage/app/public/documents
+        $nationalIdPath = $request->file('national_id_photo')->storeAs('public/documents', $nationalIdName);
+        $selfiePath = $request->file('selfie_with_id_photo')->storeAs('public/documents', $selfieName);
+
+        // بررسی ذخیره‌سازی موفق
+        if (!Storage::exists($nationalIdPath) || !Storage::exists($selfiePath)) {
+            return redirect()->back()->with('error', 'خطا در ذخیره‌سازی فایل‌ها.');
+        }
+
+        // ذخیره مسیرها در دیتابیس (بدون پیشوند public/)
         Document::updateOrCreate(
             ['user_id' => $user->id],
             [
-                'national_id_photo' => $nationalIdPath,
-                'selfie_with_id_photo' => $selfiePath,
+                'national_id_photo' => 'documents/' . $nationalIdName,
+                'selfie_with_id_photo' => 'documents/' . $selfieName,
                 'verified' => false,
             ]
         );

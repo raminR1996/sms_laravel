@@ -6,24 +6,37 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Yajra\DataTables\Facades\DataTables;
+use Illuminate\View\View;
 
 class UserController extends Controller
 {
-  public function index(Request $request)
+    public function index(): View
     {
-        $search = $request->input('search');
-        $users = User::query()
-            ->when($search, function ($query, $search) {
-                return $query->where('name', 'like', "%{$search}%")
-                             ->orWhere('email', 'like', "%{$search}%")
-                             ->orWhere('phone_number', 'like', "%{$search}%")
-                             ->orWhere('role', 'like', "%{$search}%");
-            })
-            ->paginate(10); // صفحه‌بندی با 10 کاربر در هر صفحه
-
-        return view('admin.users.index', compact('users'));
+        return view('admin.users.index');
     }
-    public function create()
+
+    // متد جدید برای دریافت داده‌های جدول با Ajax
+    public function getData()
+    {
+        $users = User::query();
+
+        return DataTables::of($users)
+            ->addIndexColumn()
+            ->editColumn('name', function ($user) {
+                return $user->name ?? 'نامشخص';
+            })
+            ->editColumn('email', function ($user) {
+                return $user->email ?? 'نامشخص';
+            })
+            ->addColumn('actions', function ($user) {
+                return view('admin.users.actions', compact('user'))->render();
+            })
+            ->rawColumns(['actions'])
+            ->make(true);
+    }
+
+    public function create(): View
     {
         return view('admin.users.create');
     }
@@ -49,7 +62,7 @@ class UserController extends Controller
         return redirect()->route('admin.users.index')->with('success', 'کاربر با موفقیت ایجاد شد.');
     }
 
-    public function edit(User $user)
+    public function edit(User $user): View
     {
         return view('admin.users.edit', compact('user'));
     }

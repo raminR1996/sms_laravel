@@ -17,6 +17,7 @@ Route::middleware(['auth', 'role:admin'])
     ->group(function () {
         Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
         Route::get('/settings', [SettingsController::class, 'index'])->name('settings.index');
+        Route::get('/settings/data', [SettingsController::class, 'getData'])->name('settings.data');
         Route::get('/settings/create', [SettingsController::class, 'create'])->name('settings.create');
         Route::post('/settings', [SettingsController::class, 'store'])->name('settings.store');
         Route::get('/settings/{id}/edit', [SettingsController::class, 'edit'])->name('settings.edit');
@@ -25,6 +26,7 @@ Route::middleware(['auth', 'role:admin'])
 
         // روت‌های مدیریت کاربران
         Route::get('/users', [UserController::class, 'index'])->name('users.index');
+        Route::get('/users/data', [UserController::class, 'getData'])->name('users.data');
         Route::get('/users/create', [UserController::class, 'create'])->name('users.create');
         Route::post('/users', [UserController::class, 'store'])->name('users.store');
         Route::get('/users/{user}/edit', [UserController::class, 'edit'])->name('users.edit');
@@ -44,6 +46,8 @@ Route::middleware(['auth', 'role:admin'])
         Route::get('/verify-documents', [DocumentController::class, 'verifyDocuments'])->name('verify.documents');
         Route::post('/documents/{document}/approve', [DocumentController::class, 'approveDocument'])->name('documents.approve');
         Route::post('/documents/{document}/reject', [DocumentController::class, 'rejectDocument'])->name('documents.reject');
+        // روت برای نمایش تصاویر
+        Route::get('/document/{filename}', [DocumentController::class, 'serveDocument'])->name('document.serve');
 
         // خطوط
         Route::get('/lines', [LineController::class, 'index'])->name('lines.index');
