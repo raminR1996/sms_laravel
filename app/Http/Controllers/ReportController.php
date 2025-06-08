@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\UpdateSingleSmsStatusJob;
 use App\Models\SmsReport;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -57,103 +58,10 @@ class ReportController extends Controller
     /**
      * به‌روزرسانی وضعیت گزارش.
      */
- public function updateStatus($id)
+public function updateStatus($id)
     {
         $report = SmsReport::where('user_id', auth()->id())->findOrFail($id);
-
-        // بررسی کَش
-        $cacheKey = "sms_status_{$report->batch_id}";
-        if (Cache::has($cacheKey)) {
-            $result = Cache::get($cacheKey);
-        } else {
-            try {
-                $apiKey = env('SABANOVIN_API_KEY');
-                $url = "https://api.sabanovin.com/v1/{$apiKey}/sms/status.json";
-                $client = new \GuzzleHttp\Client();
-
-                $response = $client->get($url, [
-                    'query' => [
-                        'batch_id' => $report->batch_id,
-                    ],
-                    'headers' => [
-                        'Jalali-DateTime' => '1',
-                    ],
-                ]);
-
-                $result = json_decode($response->getBody(), true);
-                Cache::put($cacheKey, $result, now()->addMinutes(10)); // کَش برای 10 دقیقه
-
-                Log::info('SMS status request sent', [
-                    'report_id' => $report->id,
-                    'batch_id'  => $report->batch_id,
-                    'url'       => $url,
-                ]);
-
-                if (is_null($result)) {
-                    Log::error('Invalid JSON response from Sabanovin', [
-                        'report_id' => $report->id,
-                        'body'      => $response->getBody()->getContents(),
-                    ]);
-                    return back()->with('error', 'خطا در دریافت وضعیت: پاسخ سرور نامعتبر است.');
-                }
-            } catch (\GuzzleHttp\Exception\RequestException $e) {
-                Log::error('Request exception while retrieving SMS status', [
-                    'report_id' => $report->id,
-                    'error'     => $e->getMessage(),
-                    'trace'     => $e->getTraceAsString(),
-                    'response'  => $e->hasResponse() ? $e->getResponse()->getBody()->getContents() : null,
-                ]);
-                return back()->with('error', 'خطا در دریافت وضعیت: ' . ($e->getMessage() ?? 'مشکل در اتصال به سرور. لطفاً دوباره تلاش کنید.'));
-            } catch (\Exception $e) {
-                Log::error('Exception while retrieving SMS status', [
-                    'report_id' => $report->id,
-                    'error'     => $e->getMessage(),
-                    'trace'     => $e->getTraceAsString(),
-                ]);
-                return back()->with('error', 'خطا در دریافت وضعیت: مشکل در اتصال به سرور. لطفاً دوباره تلاش کنید.');
-            }
-        }
-
-        if (isset($result['status']['code']) && $result['status']['code'] == 200) {
-            Log::info('SMS status retrieved successfully', [
-                'report_id' => $report->id,
-                'response'  => $result,
-            ]);
-
-            $statuses = [];
-            $datetimes = [];
-            if (isset($result['entries']) && is_array($result['entries'])) {
-                foreach ($report->numbers as $index => $number) {
-                    $status = 'unknown';
-                    $datetime = null;
-                    foreach ($result['entries'] as $entry) {
-                        if (isset($entry['number']) && $entry['number'] == $number) {
-                            $status = $entry['status'] ?? 'unknown';
-                            $datetime = $entry['datetime'] ?? null;
-                            break;
-                        }
-                    }
-                    $statuses[$index] = $status;
-                    $datetimes[$index] = $datetime;
-                }
-            }
-
-            $report->statuses = $statuses;
-            $report->datetimes = $datetimes;
-            $report->save();
-
-            return back()->with('success', 'وضعیت گزارش به‌روز شد.');
-        }
-
-        Log::error('Failed to retrieve SMS status', [
-            'report_id' => $report->id,
-            'status'    => $result['status'] ?? 'unknown',
-            'body'      => isset($response) ? $response->getBody()->getContents() : null,
-            'headers'   => isset($response) ? $response->getHeaders() : [],
-            'result'    => $result,
-        ]);
-
-        $errorMessage = $result['status']['message'] ?? 'خطای ناشناخته (کد: ' . ($result['status']['code'] ?? 'نامشخص') . ')';
-        return back()->with('error', 'خطا در دریافت وضعیت: ' . $errorMessage);
+        UpdateSingleSmsStatusJob::dispatch($report)->onQueue('sms-status');
+        return back()->with('success', 'درخواست به‌روزرسانی وضعیت در صف قرار گرفت.');
     }
 }
