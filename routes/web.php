@@ -62,6 +62,8 @@ Route::middleware(['auth', 'verified', 'profile.complete'])->group(function () {
     // روت‌های گزارشات گروهی
     Route::get('/group-reports', [GroupReportController::class, 'index'])->name('group.reports.index');
     Route::get('/group-reports/data', [GroupReportController::class, 'getData'])->name('group.reports.data');
+    Route::get('/group-reports/{id}/details', [GroupReportController::class, 'details'])->name('group.reports.details');
+    Route::get('/group-reports/{id}/details/data', [GroupReportController::class, 'getDetailsData'])->name('group.reports.details.data');
     Route::get('/group-reports/{id}/update-status', [GroupReportController::class, 'updateStatus'])->name('group.reports.update.status');
 
     Route::get('/reports', [ReportController::class, 'index'])->name('reports.index');

@@ -1,6 +1,6 @@
 @extends('layouts.layout')
 
-@section('title', 'گزارشات پیامک گروهی')
+@section('title', 'جزئیات گزارش پیامک گروهی')
 
 @section('css')
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
@@ -8,13 +8,13 @@
 @endsection
 
 @section('content')
-    <div class="reports-page">
-         <x-breadcrumb />
+    <div class="reports-details-page">
+        <x-breadcrumb />
         <div class="container">
             <div class="row justify-content-center">
                 <div class="settings-card">
                     <div class="settings-card-header">
-                        <h1>گزارشات پیامک گروهی</h1>
+                        <h1>جزئیات گزارش پیامک گروهی</h1>
                     </div>
 
                     <!-- لودینگ اسپینر -->
@@ -27,18 +27,13 @@
                     <!-- جدول -->
                     <div id="data-table-container" style="display: none;">
                         <div class="table-responsive">
-                            <table id="groupReportsTable" class="table table-striped table-bordered" style="width:100%">
+                            <table id="statusDetailsTable" class="table table-striped table-bordered" style="width:100%">
                                 <thead>
                                     <tr>
                                         <th>#</th>
-                                        <th>تاریخ</th>
-                                        <th>شماره خط</th>
-                                        <th>روستاها</th>
-                                        <th>تعداد شماره‌ها</th>
-                                        <th>متن پیامک</th>
-                                        <th>تعداد پیامک‌ها</th>
+                                        <th>شماره</th>
                                         <th>وضعیت</th>
-                                        <th>عملیات</th>
+                                        <th>تاریخ</th>
                                     </tr>
                                 </thead>
                             </table>
@@ -65,21 +60,16 @@
                 document.getElementById('loading-spinner').style.display = 'none';
                 document.getElementById('data-table-container').style.display = 'block';
 
-                $('#groupReportsTable').DataTable({
+                $('#statusDetailsTable').DataTable({
                     processing: true,
                     serverSide: true,
                     responsive: true,
-                    ajax: "{{ route('group.reports.data') }}",
+                    ajax: "{{ route('group.reports.details.data', $report->id) }}",
                     columns: [
                         { data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false },
-                        { data: 'created_at', name: 'created_at' },
-                        { data: 'line_number', name: 'line_number' },
-                        { data: 'villages', name: 'villages', orderable: false, searchable: true },
-                        { data: 'numbers_count', name: 'numbers_count', orderable: false, searchable: false },
-                        { data: 'message', name: 'message' },
-                        { data: 'sms_count', name: 'sms_count' },
-                        { data: 'status', name: 'status', orderable: false, searchable: true },
-                        { data: 'actions', name: 'actions', orderable: false, searchable: false },
+                        { data: 'number', name: 'number' },
+                        { data: 'status', name: 'status' },
+                        { data: 'datetime', name: 'datetime' },
                     ],
                     language: {
                         url: '{{ asset("i18n/fa.json") }}'
@@ -91,6 +81,20 @@
                     ordering: true,
                     info: true,
                     autoWidth: false,
+                });
+
+                // به‌روزرسانی خودکار وضعیت هنگام بارگذاری صفحه
+                $.ajax({
+                    url: "{{ route('group.reports.update.status', $report->id) }}",
+                    method: 'GET',
+                    success: function (response) {
+                        if (response.success) {
+                            $('#statusDetailsTable').DataTable().ajax.reload();
+                        }
+                    },
+                    error: function () {
+                        console.error('Error updating status on page load');
+                    }
                 });
             }, 1000);
         });

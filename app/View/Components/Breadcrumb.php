@@ -88,6 +88,19 @@ class Breadcrumb extends Component
                 'title' => 'ویرایش بسته ',
                 'parent' => 'admin.packages.index',
             ],
+
+               'dashboard' => [
+                'title' => 'داشبورد',
+                'parent' => null, // والد ندارد
+            ],
+             'group.reports.index' => [
+                'title' => 'گزارشات پیامک گروهی',
+                'parent' => 'dashboard',
+            ],
+             'group.reports.details' => [
+                'title' => 'جزئیات گزارش پیامک گروهی',
+                'parent' => 'group.reports.index',
+            ],
         ];
 
         $items = [];
