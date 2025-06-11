@@ -9,6 +9,7 @@
 
 @section('content')
 <div class="container">
+    <x-breadcrumb />
     <h1 class="text-center mb-4">ارسال پیامک تکی</h1>
     <div class="alert alert-info">
     حداکثر 100 شماره در هر درخواست می‌توانید وارد کنید.

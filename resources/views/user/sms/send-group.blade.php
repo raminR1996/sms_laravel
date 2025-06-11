@@ -47,6 +47,7 @@
 
 @section('content')
 <div class="container">
+    <x-breadcrumb />
     <h1 class="text-center mb-4">ارسال پیامک گروهی</h1>
     <div class="card">
         <div class="card-body">

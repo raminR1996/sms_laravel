@@ -3,11 +3,13 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\OtpController;
+use App\Http\Controllers\CacheController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\GroupReportController;
 use App\Http\Controllers\GroupSmsController;
 use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\RedirectController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\SmsController;
@@ -16,6 +18,9 @@ Route::get('/', function () {
     return view('home');
 });
 
+Route::get('/login', [RedirectController::class, 'redirectToOtpLogin']);
+Route::get('/register', [RedirectController::class, 'redirectToOtpLogin']);
+Route::get('/clear-cache', [CacheController::class, 'clearCache'])->name('clear.cache');
 // مسیر callback بدون Middleware
 Route::get('/payment/callback', [PaymentController::class, 'callback'])
     ->name('payment.callback')

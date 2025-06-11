@@ -101,6 +101,23 @@ class Breadcrumb extends Component
                 'title' => 'جزئیات گزارش پیامک گروهی',
                 'parent' => 'group.reports.index',
             ],
+              'charge.index' => [
+                'title' => 'خرید بسته پیامک',
+                'parent' => 'dashboard',
+            ],
+              'send.sms.single' => [
+                'title' => 'ارسال پیامک تکی',
+                'parent' => 'dashboard',
+            ],
+              'send.sms.group' => [
+                'title' => 'ارسال پیامک گروهی',
+                'parent' => 'dashboard',
+            ],
+              'reports.index' => [
+                'title' => 'گزارشات ارسال تکی',
+                'parent' => 'dashboard',
+            ],
+            
         ];
 
         $items = [];

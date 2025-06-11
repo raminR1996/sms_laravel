@@ -6,13 +6,6 @@
     <h3>تأیید کد</h3>
     <p class="subtitle">کدی که به شماره {{ session('phone_number') }} ارسال شده را وارد کنید</p>
 
-    @if (session('success'))
-        <div class="alert alert-success text-center">{{ session('success') }}</div>
-    @endif
-
-    @if (session('error'))
-        <div class="alert alert-danger text-center">{{ session('error') }}</div>
-    @endif
 
     <form method="POST" action="{{ route('otp.verify.post') }}">
         @csrf

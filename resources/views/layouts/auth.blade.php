@@ -13,6 +13,8 @@
     <link href="https://cdn.jsdelivr.net/npm/vazirmatn@33.0.3/Vazirmatn-font-face.css" rel="stylesheet">
     <!-- لود فایل CSS جداگانه -->
     <link rel="stylesheet" href="{{ asset('css/login.css') }}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/izitoast/1.4.0/css/iziToast.min.css" rel="stylesheet">
+
 </head>
 <body>
     <div class="container-fluid">
@@ -33,5 +35,40 @@
             </div>
         </div>
     </div>
+@yield('js')
+<script src="https://cdnjs.cloudflare.com/ajax/libs/izitoast/1.4.0/js/iziToast.min.js"></script>
+<script>
+    iziToast.settings({
+        rtl: true,
+        zindex: 99999999999,
+        position: 'bottomLeft',
+        timeout: 3000,
+        progressBar: true,
+        closeOnClick: true
+    });
+
+    @if (session('success'))
+        iziToast.success({
+            title: 'موفقیت!',
+            message: '{{ session('success') }}'
+        });
+    @endif
+
+    @if (session('error'))
+        iziToast.error({
+            title: 'خطا!',
+            message: '{{ session('error') }}'
+        });
+    @endif
+
+    @if ($errors->any())
+        @foreach ($errors->all() as $error)
+            iziToast.error({
+                title: 'خطا در اعتبارسنجی!',
+                message: '{{ $error }}'
+            });
+        @endforeach
+    @endif
+</script>
 </body>
 </html>

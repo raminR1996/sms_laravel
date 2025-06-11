@@ -6,10 +6,6 @@
     <h3>ورود به پنل</h3>
     <p class="subtitle">OTP ارسال</p>
 
-    @if (session('success'))
-        <div class="alert alert-success text-center">{{ session('success') }}</div>
-    @endif
-
     <form method="POST" action="{{ route('otp.send') }}">
         @csrf
         <div class="mb-4">

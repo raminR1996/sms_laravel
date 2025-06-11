@@ -19,6 +19,9 @@
 
     <!-- فایل CSS -->
     <link rel="stylesheet" href="{{ asset('css/panel.css') }}">
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/izitoast/1.4.0/css/iziToast.min.css" rel="stylesheet">
+
     @yield('css')
 </head>
 <body>
@@ -76,5 +79,39 @@
         });
     </script>
     @yield('js')
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/izitoast/1.4.0/js/iziToast.min.js"></script>
+<script>
+    iziToast.settings({
+        rtl: true,
+        zindex: 99999999999,
+        position: 'bottomLeft',
+        timeout: 3000,
+        progressBar: true,
+        closeOnClick: true
+    });
+
+    @if (session('success'))
+        iziToast.success({
+            title: 'موفقیت!',
+            message: '{{ session('success') }}'
+        });
+    @endif
+
+    @if (session('error'))
+        iziToast.error({
+            title: 'خطا!',
+            message: '{{ session('error') }}'
+        });
+    @endif
+
+    @if ($errors->any())
+        @foreach ($errors->all() as $error)
+            iziToast.error({
+                title: 'خطا در اعتبارسنجی!',
+                message: '{{ $error }}'
+            });
+        @endforeach
+    @endif
+</script>
 </body>
 </html>

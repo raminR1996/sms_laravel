@@ -20,7 +20,7 @@
                 @endif
                 <div class="card">
     <h5 class="card-title">شارژ پنل</h5>
-    <p class="card-text">خرید بسته‌های پیامکی برای ارسال پیامک.</p>
+    <p class="card-text">خرید بسته‌های پیامکی </p>
     <a href="{{ route('charge.index') }}" class="card-btn">شارژ پنل</a>
 </div>
 
@@ -31,7 +31,7 @@
                 </div>
                 <div class="card">
                     <h5 class="card-title">ارسال پیامک گروهی</h5>
-                    <p class="card-text">ارسال پیامک به چندین مخاطب به صورت همزمان.</p>
+                    <p class="card-text">ارسال پیامک گروهی </p>
                     <a href="{{ route('send.sms.group') }}" class="card-btn">شروع کنید</a>
                 </div>
              

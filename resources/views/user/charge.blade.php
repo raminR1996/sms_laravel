@@ -4,6 +4,7 @@
 
 @section('content')
     <div class="dashboard-page">
+         <x-breadcrumb />
         <div class="container">
             <h1 class="text-center mb-4">شارژ پنل</h1>
 
