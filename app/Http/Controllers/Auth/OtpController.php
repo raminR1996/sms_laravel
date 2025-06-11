@@ -16,43 +16,45 @@ class OtpController extends Controller
         return view('auth.otp-login');
     }
 
-    public function sendOtp(Request $request)
-    {
-        // اگه phone_number توی درخواست نباشه، از سشن می‌گیریم
-        $phoneNumber = $request->input('phone_number', Session::get('phone_number'));
+public function sendOtp(Request $request)
+{
+    $phoneNumber = $request->input('phone_number', Session::get('phone_number'));
 
-        if (!$phoneNumber) {
-            return back()->withErrors(['error' => 'شماره تلفن یافت نشد!']);
-        }
-
-        $request->merge(['phone_number' => $phoneNumber]); // برای اعتبارسنجی
-        $request->validate(['phone_number' => 'required|regex:/^09[0-9]{9}$/']);
-
-        $code = rand(100000, 999999);
-        $expiresAt = Carbon::now()->addMinutes(5);
-        OtpCode::updateOrCreate(
-            ['phone_number' => $phoneNumber],
-            ['code' => $code, 'expires_at' => $expiresAt, 'is_used' => false]
-        );
-
-        $apiKey = "sa860834070:ZJHjI1D9vxgnantqc5NQ7AKdhl8xHDUWTANW";
-        $gateway = "50003190"; // خط خودت رو بذار
-        $text = "کد ورود شما: $code   لغو11";
-        $to = [$phoneNumber];
-
-        $client = new \GuzzleHttp\Client();
-        $response = $client->get("https://api.sabanovin.com/v1/{$apiKey}/sms/send.json", [
-            'query' => ['gateway' => $gateway, 'to' => implode(',', $to), 'text' => $text]
-        ]);
-
-        $result = json_decode($response->getBody(), true);
-        if ($result['status']['code'] == 200) {
-            Session::put('phone_number', $phoneNumber);
-            return redirect()->route('otp.verify')->with('success', 'کد OTP ارسال شد!');
-        } else {
-            return back()->withErrors(['error' => 'ارسال پیامک ناموفق بود!']);
-        }
+    if (!$phoneNumber) {
+        return back()->withErrors(['error' => 'شماره تلفن یافت نشد!']);
     }
+
+    $request->merge(['phone_number' => $phoneNumber]);
+    $request->validate(['phone_number' => 'required|regex:/^09[0-9]{9}$/']);
+
+    $code = rand(100000, 999999);
+    $expiresAt = Carbon::now()->addMinutes(5);
+    OtpCode::updateOrCreate(
+        ['phone_number' => $phoneNumber],
+        ['code' => $code, 'expires_at' => $expiresAt, 'is_used' => false]
+    );
+
+    // استفاده از اسم سایت از تنظیمات
+    $siteTitle = config('app.name'); // یا هر متغیر دیگه‌ای که اسم سایت رو نگه می‌داره
+    $text = "کد: $code\n*$siteTitle*\n@sms.sabanovin.com #$code\nلغو11";
+
+    $apiKey = "sa860834070:ZJHjI1D9vxgnantqc5NQ7AKdhl8xHDUWTANW";
+    $gateway = "50003190";
+    $to = [$phoneNumber];
+
+    $client = new \GuzzleHttp\Client();
+    $response = $client->get("https://api.sabanovin.com/v1/{$apiKey}/sms/send.json", [
+        'query' => ['gateway' => $gateway, 'to' => implode(',', $to), 'text' => $text]
+    ]);
+
+    $result = json_decode($response->getBody(), true);
+    if ($result['status']['code'] == 200) {
+        Session::put('phone_number', $phoneNumber);
+        return redirect()->route('otp.verify')->with('success', 'کد OTP ارسال شد!');
+    } else {
+        return back()->withErrors(['error' => 'ارسال پیامک ناموفق بود!']);
+    }
+}
 
     public function showVerifyForm()
     {
