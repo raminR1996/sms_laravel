@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\SmsReport;
+use App\Models\Transaction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
@@ -86,6 +87,16 @@ public function storeSingleSms(Request $request)
                     'batch_id'    => $batchId,
                 ]);
                 $report->save();
+
+                // ثبت تراکنش
+                Transaction::create([
+                    'user_id' => $user->id,
+                    'type' => 'debit',
+                    'sms_count' => $totalSms,
+                    'amount' => null,
+                    'description' => "ارسال پیامک تکی  " . count($numbers) . " شماره",
+                    'sms_balance_after' => $user->sms_balance,
+                ]);
             });
 
             return redirect()->route('reports.index')->with('success', 'پیامک با موفقیت ارسال شد.');

@@ -1,10 +1,10 @@
 @extends('layouts.layout')
 
-@section('title',  ' شارژ پنل')
+@section('title', 'شارژ پنل')
 
 @section('content')
     <div class="dashboard-page">
-         <x-breadcrumb />
+        <x-breadcrumb />
         <div class="container">
             <h1 class="text-center mb-4">شارژ پنل</h1>
 
@@ -39,67 +39,10 @@
                     </div>
                 </div>
             </div>
-
-            <!-- لیست پرداخت‌های موفق -->
-            <div class="card mb-4">
-                <div class="card-body">
-                    <h5 class="card-title">پرداخت‌های موفق</h5>
-                    <table class="table table-bordered">
-                        <thead>
-                            <tr>
-                                <th>مبلغ (تومان)</th>
-                                <th>شناسه تراکنش</th>
-                                <th>تاریخ</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @forelse ($payments as $payment)
-                                <tr>
-                                    <td>{{ number_format($payment->amount) }}</td>
-                                    <td>{{ $payment->transaction_id }}</td>
-                                    <td>{{ $payment->created_at->format('Y-m-d H:i') }}</td>
-                                </tr>
-                            @empty
-                                <tr>
-                                    <td colspan="3" class="text-center">هیچ پرداختی ثبت نشده است.</td>
-                                </tr>
-                            @endforelse
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-
-            <!-- لیست بسته‌های خریداری‌شده -->
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">بسته‌های خریداری‌شده</h5>
-                    <table class="table table-bordered">
-                        <thead>
-                            <tr>
-                                <th>تعداد پیامک</th>
-                                <th>مبلغ (تومان)</th>
-                                <th>تاریخ خرید</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @forelse ($userPackages as $userPackage)
-                                <tr>
-                                    <td>{{ $userPackage->sms_count }}</td>
-                                    <td>{{ number_format($userPackage->price) }}</td>
-                                    <td>{{ $userPackage->created_at->format('Y-m-d H:i') }}</td>
-                                </tr>
-                            @empty
-                                <tr>
-                                    <td colspan="3" class="text-center">هیچ بسته‌ای خریداری نشده است.</td>
-                                </tr>
-                            @endforelse
-                        </tbody>
-                    </table>
-                </div>
-            </div>
         </div>
     </div>
 @endsection
+
 @section('scripts')
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>

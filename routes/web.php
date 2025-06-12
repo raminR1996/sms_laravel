@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\OtpController;
 use App\Http\Controllers\CacheController;
+use App\Http\Controllers\ChargeController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\GroupReportController;
@@ -50,9 +51,14 @@ Route::middleware(['auth', 'verified', 'profile.complete'])->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
 
-    // روت‌های شارژ پنل
-    Route::get('/charge', [PaymentController::class, 'index'])->name('charge.index');
+// روت‌های شارژ پنل
+    Route::get('/charge', [ChargeController::class, 'index'])->name('charge.index');
+    Route::get('/successful-payments', [ChargeController::class, 'successfulPayments'])->name('successful_payments.index');
+    Route::get('/purchased-packages', [ChargeController::class, 'purchasedPackages'])->name('purchased_packages.index');
+    Route::get('/transactions', [ChargeController::class, 'transactions'])->name('transactions.index');
     Route::post('/payment/purchase', [PaymentController::class, 'purchase'])->name('payment.purchase');
+
+    
 
     // Route::get('/payment/callback', [PaymentController::class, 'callback'])->name('payment.callback');
 

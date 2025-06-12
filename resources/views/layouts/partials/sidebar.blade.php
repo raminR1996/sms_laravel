@@ -1,10 +1,11 @@
 <ul class="nav flex-column">
-    <li class="nav-item">
-        <a class="nav-link active" href="/"><i class="fas fa-home me-2"></i> خانه</a>
-    </li>
+    
 
     <!-- منوهای نقش admin -->
     @if(auth()->check() && auth()->user()->role === 'admin')
+    <li class="nav-item">
+        <a class="nav-link active" href="{{ route('admin.dashboard') }}"><i class="fas fa-home me-2"></i> خانه</a>
+    </li>
         <li class="nav-item">
             <details class="sidebar-submenu">
                 <summary class="nav-link">
@@ -43,6 +44,9 @@
 
     <!-- منوهای نقش staff -->
     @if(auth()->check() && auth()->user()->role === 'staff')
+    <li class="nav-item">
+        <a class="nav-link active" href="/"><i class="fas fa-home me-2"></i> خانه</a>
+    </li>
         <li class="nav-item">
             <details class="sidebar-submenu">
                 <summary class="nav-link">
@@ -58,6 +62,9 @@
 
     <!-- منوهای نقش user -->
     @if(auth()->check() && auth()->user()->role === 'user')
+    <li class="nav-item">
+        <a class="nav-link active" href="{{ route('dashboard') }}"><i class="fas fa-home me-2"></i> خانه</a>
+    </li>
         <li class="nav-item">
             <a class="nav-link" href="{{ route('profile.edit') }}"><i class="fas fa-user me-2"></i> پروفایل من</a>
         </li>

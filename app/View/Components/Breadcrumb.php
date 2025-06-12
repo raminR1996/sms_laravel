@@ -117,6 +117,21 @@ class Breadcrumb extends Component
                 'title' => 'گزارشات ارسال تکی',
                 'parent' => 'dashboard',
             ],
+
+             'successful_payments.index' => [
+                'title' => 'پرداخت های موفق',
+                'parent' => 'dashboard',
+            ],
+              'purchased_packages.index' => [
+                'title' => 'بسته های خریداری شده',
+                'parent' => 'dashboard',
+            ],
+              'transactions.index' => [
+                'title' => 'تراکنش ها ',
+                'parent' => 'dashboard',
+            ],
+
+            
             
         ];
 

@@ -49,10 +49,10 @@ class GroupSmsController extends Controller
                         'approved_at' => now(),
                     ]);
 
-                    // کسر اعتبار
-                    $user = $groupSmsRequest->user;
-                    $user->sms_balance = max(0, $user->sms_balance - $groupSmsRequest->sms_count);
-                    $user->save();
+                    // // کسر اعتبار
+                    // $user = $groupSmsRequest->user;
+                    // $user->sms_balance = max(0, $user->sms_balance - $groupSmsRequest->sms_count);
+                    // $user->save();
 
                     // ارسال Job برای پردازش پیامک‌ها به‌صورت دسته‌ای
                     SendGroupSmsJob::dispatch($groupSmsRequest, $numbers);

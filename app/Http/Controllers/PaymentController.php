@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Package;
 use App\Models\Payment;
+use App\Models\Transaction;
 use App\Models\UserPackage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -248,6 +249,16 @@ class PaymentController extends Controller
 
         $user = $payment->user;
         $user->increment('sms_balance', $package->sms_count);
+
+        // ثبت تراکنش
+        Transaction::create([
+        'user_id' => $user->id,
+        'type' => 'credit',
+        'sms_count' => $package->sms_count,
+        'amount' => $package->price,
+        'description' => "خرید بسته {$package->sms_count} پیامکی",
+        'sms_balance_after' => $user->sms_balance,
+        ]);
 
         Log::info('Package purchased successfully', [
             'user_id' => $payment->user_id,

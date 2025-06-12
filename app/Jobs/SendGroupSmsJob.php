@@ -3,6 +3,7 @@
 namespace App\Jobs;
 
 use App\Models\GroupSmsRequest;
+use App\Models\Transaction;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -74,5 +75,20 @@ class SendGroupSmsJob implements ShouldQueue
         'batch_id' => json_encode($batchIds),
         'status' => $failed ? 'failed' : 'approved',
     ]);
+    if (!$failed) {
+        $user = $this->groupSmsRequest->user;
+        $user->sms_balance = max(0, $user->sms_balance - $this->groupSmsRequest->sms_count);
+        $user->save();
+
+        // ثبت تراکنش
+        Transaction::create([
+            'user_id' => $user->id,
+            'type' => 'debit',
+            'sms_count' => $this->groupSmsRequest->sms_count,
+            'amount' => null,
+            'description' => "ارسال پیامک گروهی به " . count($this->numbers) . " شماره",
+            'sms_balance_after' => $user->sms_balance,
+        ]);
+    }
 }
 }
